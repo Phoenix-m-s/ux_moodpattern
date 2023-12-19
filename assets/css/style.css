@@ -70,6 +70,8 @@ body{
      height:360px;
      font-size:12px !important;
      background:url('../images/Rectangle1797.png');
+     z-index:0 !important;
+
  }
  .box2-l{
      margin-top: 35px;
@@ -77,6 +79,10 @@ body{
      height:360px;
      font-size:12px !important;
      background:url('../images/slider-graphic.png') no-repeat;
+     position: absolute;
+     left:0;
+     top:0;
+     z-index: 1 !important;
  }
  .box3{
      width:100%;
