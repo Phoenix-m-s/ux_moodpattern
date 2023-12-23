@@ -10,64 +10,57 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<div class="container">
-    <header class="header">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary " dir="rtl">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <object data="assets/images/logo_white.svg" type="image/svg+xml"></object>
-                    <span class="fs-5">moodPattern</span>
-                </a>
-                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+<header class="header">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary " dir="rtl">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <object data="assets/images/logo_white.svg" type="image/svg+xml"></object>
+                <span class="fs-6">moodPattern</span>
+            </a>
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">صفحه اصلی</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">فلسفه گراف حسی</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">لیست گراف حسی</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">تماس با ما</a>
+                </li>
+            </ul>
+            <div class="col-md-3">
+                <form class="d-flex">
+                    <input type="text" class="form-control rounded-5 " placeholder="جستجو کنید...">
+
+                    <a href="#" class="search-icon">
+                        <img src="assets/images/search.svg" class="" alt="moodpattern" title="moodpattern">
+                    </a>
+                </form>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">صفحه اصلی</a>
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <img class="text-success" src="assets/images/user.svg" alt="moodpattern" title="moodpattern">
+                            ورود</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">فلسفه گراف حسی</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">لیست گراف حسی</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">تماس با ما</a>
+                        <a class="nav-link" href="#">ثبت نام</a>
                     </li>
                 </ul>
-
-                <div class="col-md-3">
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="جستجو..." aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">
-                            <!-- اینجا آیکون SVG مورد نظر خود را قرار دهید -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.397l3.86 3.86a1 1 0 0 0 1.415-1.414l-3.86-3.86zm-5.242-1.844a5 5 0 1 1 6.324-6.324 5 5 0 0 1-6.324 6.324z"/>
-                            </svg>
-                        </button>
-                    </form>
-                </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-                                    <path d="M2 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                                </svg>
-                                ورود</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">ثبت نام</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex" role="search">
-                        <button class="btn btn-outline-success rounded-4 " type="submit">تماس با مشاوران</button>
-                    </form>
-                </div>
+                <form class="d-flex" role="search">
+                    <button class="btn btn-outline-success rounded-5 " type="submit">تماس با مشاوران</button>
+                </form>
             </div>
-        </nav>
-    </header>
-</div>
+        </div>
+    </nav>
+</header>
 <!--slider-->
 <section class="sliderBox">
     <div class="container">
@@ -76,7 +69,6 @@
                 <div class="box2-l">
                 </div>
             </div>
-
             <div class="col-md-6" dir="rtl" >
                 <div class="box2-r">
                     <!-- اطلاعات تماس -->
@@ -125,7 +117,7 @@
 <div class="container">
     <section class="info mt-5">
         <div class="row">
-            <div class="col-md-7" >
+            <div class="col-md-8">
                 <button type="button" class="btn btn-success m-xl-2 rounded-4 p-2 ">
                     تماس با مشاوران
                     <img src="assets/images/call.svg" alt="moodpattern" title="moodpattern">
@@ -139,8 +131,8 @@
                     <img src="assets/images/telgram.svg" alt="moodpattern" title="moodpattern">
                 </button>
             </div>
-            <div class="col-md-5" >
-                <p class="m-2 p-2" dir="rtl">
+            <div class="col-md-4">
+                <p class="m-2 p-2 fs-6" dir="rtl">
                     جهت مشاوره با ما در ارتباط باشید .
                 </p>
             </div>
@@ -160,19 +152,22 @@
                             </h6>
                             <p class="text-light m-4 justify-content-md-center" dir="rtl">
                                 با ترسیم گراف حسی می‌تونم کیفت رابطه تو با هرچیزی یا هر هدف یا کاری را تحلیل کنم، مثل فایده و هزینه درونی که برات داره یا میزان علاقه واقعی، نیاز حسی و توانمندی که نسبت بهش داری و خیلی چیزای دیگه، حالا به من بگو الان در مورد چه موضوعی می خوای بدونی؟
-
                             </p>
-                            <div class="m-4 d-grid gap-3" dir="rtl">
-                                <label>
-                                    <input type="text" name="title" class="form-control" placeholder="عنوان">
-                                </label>
-                                <label>
-                                    <input type="text" name="relationPeaple" class="form-control"  placeholder="رابطه انسانی">
-                                </label>
+
+                            <div class="col-md-9" dir="rtl">
+                                <div class="m-4 d-grid gap-3" dir="rtl">
+                                    <label>
+                                        <input type="text" name="title" class="form-control" placeholder="عنوان">
+                                    </label>
+                                    <label>
+                                        <input type="text" name="relationPeaple" class="form-control"  placeholder="رابطه انسانی">
+                                    </label>
+                                </div>
+                                <div class="m-4 d-grid gap-1">
+                                    <button class="btn btn-light text-success" type="button">شروع کنید</button>
+                                </div>
                             </div>
-                            <div class="m-4 d-grid gap-1">
-                                <button class="btn btn-light text-success" type="button">شروع کنید</button>
-                            </div>
+                            <div class="col-md-3"></div>
                         </div>
                     </div>
                 </form>
