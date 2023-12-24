@@ -169,3 +169,17 @@ body{
      flex-shrink: 0;
      background: #263238;
  }
+/* Your custom styles here */
+.bubble {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 10px;
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+.selected {
+    background-color: green !important;
+    transform: scale(1.2);
+}
