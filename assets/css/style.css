@@ -122,29 +122,22 @@ body{
      height:360px;
      font-size:12px !important;
      background:url('../images/Rectangle1797.png');
-     z-index: 2;
+     z-index: 3;
 
  }
     .box2-r-img{
         position: relative;
     }
  .box2-l{
-    position: absolute;
-     margin-top: 17px;
-     left:8%;
-     width:700px;
+     margin-top:17px;
+
+     max-width:500px;
      height:360px;
      font-size:12px !important;
      background:url('../images/slider-graphic.png') no-repeat;
-     z-index: 3;
+     z-index: 2;
 
  }
-     .box2-l-img{
-         position: absolute;
-         left:5%;
-         height: 550px;
-         z-index:5;
-     }
  .box3{
      width:100%;
      height: 90px;

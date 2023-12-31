@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nav Tabs with Central Circles</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid #007bff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Bootstrap Nav Tabs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="step1-tab" data-bs-toggle="tab" data-bs-target="#step1" type="button" role="tab" aria-controls="step1" aria-selected="true">Step 1</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="step2-tab" data-bs-toggle="tab" data-bs-target="#step2" type="button" role="tab" aria-controls="step2" aria-selected="false">Step 2</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="step3-tab" data-bs-toggle="tab" data-bs-target="#step3" type="button" role="tab" aria-controls="step3" aria-selected="false">Step 3</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="step4-tab" data-bs-toggle="tab" data-bs-target="#step4" type="button" role="tab" aria-controls="step4" aria-selected="false">Step 4</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="step5-tab" data-bs-toggle="tab" data-bs-target="#step5" type="button" role="tab" aria-controls="step5" aria-selected="false">Step 5</button>
+        </li>
+    </ul>
+</div>
+
+<!-- Tabs Content -->
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="step1" role="tabpanel" aria-labelledby="step1-tab">
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="circle">1</div>
+            <div class="circle">1</div>
+            <div class="circle">1</div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="step2" role="tabpanel" aria-labelledby="step2-tab">
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="circle">2</div>
+            <div class="circle">2</div>
+            <div class="circle">2</div>
+            <div class="circle">2</div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="step3" role="tabpanel" aria-labelledby="step3-tab">
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="circle">3</div>
+            <div class="circle">3</div>
+            <div class="circle">3</div>
+            <div class="circle">3</div>
+            <div class="circle">3</div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="step4" role="tabpanel" aria-labelledby="step4-tab">
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="circle">4</div>
+            <div class="circle">4</div>
+            <div class="circle">4</div>
+            <div class="circle">4</div>
+            <div class="circle">4</div>
+            <div class="circle">6</div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="step5" role="tabpanel" aria-labelledby="step5-tab">
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="circle">5</div>
+            <div class="circle">5</div>
+            <div class="circle">5</div>
+            <div class="circle">5</div>
+            <div class="circle">5</div>
+            <div class="circle">5</div>
+            <div class="circle">5</div>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script>
+    // When a tab is clicked
+    $('.nav-link').on('click', function() {
+        // Remove the 'selected' class from all circles
+        $('.circle').removeClass('selected');
+
+        // If it's the last tab
+        if ($(this).hasClass('nav-link:last-child')) {
+            // Loop through circles to find the selected ones
+            const selectedNumbers = [];
+            $('.circle').each(function() {
+                if ($(this).hasClass('selected')) {
+                    selectedNumbers.push($(this).text());
+                }
+            });
+
+            // Show the selected numbers in the console (You can post them to your server here)
+            console.log('Selected numbers:', selectedNumbers);
+        }
+    });
+
+    // When a circle is clicked
+    $('.circle').on('click', function() {
+        $(this).toggleClass('selected');
+    });
+</script>
+</body>
+</html>
