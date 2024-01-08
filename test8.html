@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دایره‌های اطراف</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .circle-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 50px auto;
+            font-size: 16px;
+        }
+        .circle {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #333;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 1s ease;
+        }
+        .large-circle {
+            width: 100px;
+            height: 100px;
+            font-size: 16px;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+<div class="circle-container">
+    <div class="circle large-circle" style="text-align: center; line-height: 100px;">نمره انشا چند شدی؟</div>
+    <div class="circle" data-score="5">5</div>
+    <div class="circle" data-score="10">10</div>
+    <div class="circle" data-score="15">15</div>
+    <div class="circle" data-score="20">20</div>
+    <div class="circle" data-score="25">25</div>
+</div>
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" href="#">مرحله ۱</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">مرحله ۲</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">مرحله ۳</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">مرحله ۴</a>
+    </li>
+</ul>
+
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/jquery.min.js"></script>
+<script>
+    $('.circle').on('click', function() {
+        $(this).toggleClass('selected');
+        $(this).toggleClass('rotate');
+    });
+
+    $('.nav-link').on('click', function() {
+        if ($('.circle.selected').length === 5) {
+            $('#submitBtn').show();
+        } else {
+            $('#submitBtn').hide();
+        }
+    });
+
+    $('#submitBtn').on('click', function() {
+        let selectedCircles = $('.circle.selected');
+        let scores = selectedCircles.map(function() {
+            return $(this).data('score');
+        }).get();
+        console.log('دایره‌های سبز شده: ', scores);
+        // ارسال اطلاعات به سرور
+    });
+</script>
+</body>
+</html>

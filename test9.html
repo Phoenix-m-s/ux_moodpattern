@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دایره‌های ثابت</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .circle-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 50px auto;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .fixed-circle {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: yellow;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            cursor: default;
+            margin: 20px;
+        }
+        .rotating-circle {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: lightgreen;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            z-index: 1;
+            direction: rtl;
+            padding:20px;
+        }
+        .circle1 {
+            top: 25px;
+            left: 125px;
+        }
+        .circle2 {
+            top: 125px;
+            left: 25px;
+        }
+        .circle3 {
+            top: 225px;
+            left: 125px;
+        }
+        .circle4 {
+            top: 125px;
+            left: 225px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="circle-container">
+        <div class="fixed-circle">
+            <p>سلام! حالت چطوره؟</p>
+        </div>
+        <div class="rotating-circle circle1" data-value="خوب">خوب</div>
+        <div class="rotating-circle circle2" data-value="عالی">عالی</div>
+        <div class="rotating-circle circle3" data-value="بد">بد</div>
+        <div class="rotating-circle circle4" data-value="بسیار خوب">بسیار خوب</div>
+    </div>
+</div>
+</body>
+</html>
