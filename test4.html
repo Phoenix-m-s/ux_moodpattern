@@ -1,107 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horizontal Step Form with Animated Circles using Anime.js</title>
+    <title>دایره‌های چرخشی</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Custom styles */
-        .floating-circles {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            overflow: hidden;
-        }
-        .circle {
-            width: 50px;
-            height: 50px;
+        .circle-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 50px auto;
             border-radius: 50%;
-            margin: 10px;
+            background-color: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-weight: bold;
+            transition: transform 1s ease; /* اضافه شده برای انیمیشن چرخش */
         }
-        .odd {
-            background-color: yellow;
+        .fixed-circle {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            cursor: default;
         }
-        .even {
-            background-color: orange;
-        }
-        .selected {
-            transform: scale(1.2);
-            background-color: green !important;
+        .rotating-circle {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: lightgreen;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1;
+            transition: transform 0.5s ease; /* اضافه شده برای انیمیشن تغییر اندازه */
         }
     </style>
 </head>
 <body>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <!-- Your step links here -->
-            </div>
+<div class="container">
+    <div class="circle-container" id="mainCircle">
+        <div class="fixed-circle">
+            <p>سلام! حالت چطوره؟</p>
         </div>
-        <div class="col-md-9">
-            <div class="tab-content" id="v-pills-tabContent">
-                <!-- Your steps content here -->
-            </div>
-        </div>
+        <div class="rotating-circle" data-value="خوب" style="top: 25px; left: 125px;">خوب</div>
+        <div class="rotating-circle" data-value="عالی" style="top: 125px; left: 25px;">عالی</div>
+        <div class="rotating-circle" data-value="بد" style="top: 225px; left: 125px;">بد</div>
+        <div class="rotating-circle" data-value="بسیار خوب" style="top: 125px; left: 225px;">بسیار خوب</div>
     </div>
 </div>
 
-<!-- Bootstrap Modals -->
-<!-- Your modals here -->
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function createFloatingCircles(containerId, start, end, isEven) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = '';
-        for (let i = start; i <= end; i++) {
-            const circle = document.createElement('div');
-            circle.textContent = i;
-            circle.classList.add('circle');
-            if ((i % 2 === 0 && isEven) || (i % 2 !== 0 && !isEven)) {
-                circle.classList.add('even');
-            } else {
-                circle.classList.add('odd');
+    // تابع برای چرخش دایره اصلی
+    function rotateMainCircle() {
+        $('#mainCircle').css('transform', 'rotate(45deg)');
+    }
+
+    // تابع برای تغییر اندازه دایره‌های اطراف و پست کردن مقادیر انتخاب شده
+    $(document).ready(function() {
+        $('.rotating-circle').click(function() {
+            $(this).toggleClass('selected');
+            if ($('.rotating-circle.selected').length === 2) {
+                $('.rotating-circle').each(function() {
+                    if ($(this).hasClass('selected')) {
+                        // پست کردن مقادیر انتخاب شده
+                        console.log('دایره‌های انتخاب شده: ', $(this).data('value'));
+                    }
+                });
             }
-            circle.addEventListener('click', function() {
-                this.classList.toggle('selected');
-            });
-            container.appendChild(circle);
-            animateCircle(circle);
-        }
-    }
-
-    function animateCircle(circle) {
-        const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
-        const randomX = anime.random(-screenWidth / 2, screenWidth / 2);
-        const randomY = anime.random(-screenHeight / 2, screenHeight / 2);
-
-        anime({
-            targets: circle,
-            translateX: randomX,
-            translateY: randomY,
-            duration: 2000,
-            easing: 'easeInOutQuad',
-            direction: 'alternate',
-            loop: true
+            $(this).toggleClass('enlarge');
         });
-    }
-
-    createFloatingCircles('step1-circles', 1, 10, false);
-    // Repeat for other steps
-
-    // Show selected items in modal
-    // Your modal script here
+    });
 </script>
-
 </body>
 </html>
