@@ -10,19 +10,51 @@
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
   <style>
+    /* #fixedCircle {
+       position: absolute;
+       top: 20%;
+       left: 20%;
+       transform: translate(-50%, -50%);
+       width: 150px; !* اندازه دلخواه دایره ثابت *!
+       height: 150px;
+       border-radius: 50%;
+       background-color: #acd6ef; !* یک رنگ خوشکل انتخاب کنید *!
+       text-align: center;
+       justify-content: center;
+       align-items: center;
+       color: #443a3a;
+       font-size: 12px;
+       display: inline-block;
+     }*/
     #fixedCircle {
+      direction: rtl;
+      text-align: center;
+      width: 150px;
+      height: 150px;
+      border-radius:50%;
+      background-color: #c99898;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+
+      position: relative;
+      z-index: -1;
+    }
+
+
+    #myCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    #fixedCircle span {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 200px; /* اندازه دلخواه دایره ثابت */
-      height: 200px;
-      border-radius: 50%;
-      background-color: #3498db; /* یک رنگ خوشکل انتخاب کنید */
-      text-align: center;
-      color: white;
-      font-size: 24px;
-      line-height: 200px;
     }
 
     #rotatingCirclesCanvas {
@@ -84,12 +116,19 @@
   </nav>
 </header>
 <!--slider-->
+<div class="container" dir="rtl">
 
-<canvas id="myCanvas" width="500" height="300">
-  <div id="fixedCircle">
-    <p>حالت چطوره خوبی؟ چیکارمیکنی؟</p>
+
+  <div id="fixedCircle" class="m-5" >
+    <span>   رابطه ما با همه از نظر من احساسات برای من یعنی </span>
+    <canvas id="myCanvas" width="600" height="300" >
+
+    </canvas>
+
   </div>
-</canvas>
+
+
+</div>
 <button onclick="postSelectedTitles()">ارسال</button>
 <div id="postedTitles"></div>
 <!--footer-->
