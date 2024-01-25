@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>moodPattern</title>
+  <!-- fav icon -->
+  <link rel="shortcut icon" href="assets/images/logo.svg">
+  <!-- css-->
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    /* #fixedCircle {
+       position: absolute;
+       top: 20%;
+       left: 20%;
+       transform: translate(-50%, -50%);
+       width: 150px; !* اندازه دلخواه دایره ثابت *!
+       height: 150px;
+       border-radius: 50%;
+       background-color: #acd6ef; !* یک رنگ خوشکل انتخاب کنید *!
+       text-align: center;
+       justify-content: center;
+       align-items: center;
+       color: #443a3a;
+       font-size: 12px;
+       display: inline-block;
+     }*/
+    #fixedCircle {
+      direction: rtl;
+      text-align: center;
+      width: 150px;
+      height: 150px;
+      border-radius:50%;
+      background-color: #8ce7a5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+
+      position: relative;
+      z-index: -1;
+    }
+
+
+    #myCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    #fixedCircle span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #rotatingCirclesCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+  </style>
+</head>
+<body>
+<header class="header">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary " dir="rtl">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="assets/images/logoSVG.svg" alt="moodpattern" title="moodpattern">
+      </a>
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">صفحه اصلی</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">فلسفه گراف حسی</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">لیست گراف حسی</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">تماس با ما</a>
+        </li>
+      </ul>
+      <div class="col-md-3">
+        <form class="d-flex">
+          <input type="text" class="form-control rounded-5 " placeholder="جستجو کنید...">
+          <a href="#" class="search-icon">
+            <img src="assets/images/search.svg" class="" alt="moodpattern" title="moodpattern">
+          </a>
+        </form>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">
+              <img class="text-success" src="assets/images/user.svg" alt="moodpattern" title="moodpattern">
+              ورود</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">ثبت نام</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <button class="btn btn-outline-success rounded-5 " type="submit">تماس با مشاوران</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+</header>
+<!--slider-->
+
+<div class="container">
+
+
+  <div class="col-md-3">
+    <div id="fixedCircle" class="m-5" >
+      <span>   رابطه ما با همه از نظر من احساسات برای من یعنی </span>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <canvas class="mt-5" id="myCanvas" width="770" height="220" style="position: absolute;margin-top: 100px!important;" >
+
+    </canvas>
+
+  </div>
+  <div class="col-md-8 mt-5 ">
+    <button class="btn btn-primary d-block" onclick="postSelectedTitles()">ارسال</button>
+    <div id="postedTitles">
+
+    </div>
+
+  </div>
+</div>
+
+
+<!--footer-->
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+
+        <img src="assets/images/logo.svg" alt="moodpattern" title="moodpattern">
+
+        <img src="assets/images/textLogo.svg" alt="moodpattern" title="moodpattern">
+
+        <!-- نقشه گوگل -->
+        <!-- اضافه کردن نقشه از گوگل با استفاده از کد Embed شده -->
+        <iframe class="mt-2" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25897.79347643372!2d51.391414399999995!3d35.76986905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e06f8e6ad6b4b%3A0x4fde4f4d6ca30e47!2sVanak%2C%20District%203%2C%20Tehran%2C%20Tehran%20Province%2C%20Iran!5e0!3m2!1sen!2snl!4v1702829771308!5m2!1sen!2snl" width="500" height="150" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <ul class="list-unstyled text-white" dir="ltr">
+          <li>
+            <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
+            <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
+            <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
+            <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
+
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-6 mt-5" dir="rtl">
+        <!-- اطلاعات تماس -->
+        <h5 class="text-white">اطلاعات تماس</h5>
+        <ul class="list-unstyled text-white">
+          <li>
+            <img src="assets/images/map.svg" alt="moodpattern" title="moodpattern">
+            شعبه 1: خیابان پیروزی نرسیده به چهار راه گوگا گولا روبروی گوچه جعفر نژاد جنب کافی شاپ دیدار بالای داروحانه شبانه روزی طبقه دوم
+          </li>
+        </ul>
+        <h5 class="text-white">تلفن</h5>
+        <ul class="list-unstyled text-white" dir="rtl">
+          <li>
+            <img src="assets/images/call.svg" alt="moodpattern" title="moodpattern">
+            021-36601073
+            <img src="assets/images/call.svg" alt="moodpattern" title="moodpattern">
+            021-36601073
+            <img src="assets/images/call.svg" alt="moodpattern" title="moodpattern">
+            021-36601073
+          </li>
+        </ul>
+        <!-- اطلاعات تماس -->
+        <h5 class="text-white">ایمیل :</h5>
+        <ul class="list-unstyled text-white">
+          <li>
+            <img src="assets/images/email.svg" alt="moodpattern" title="moodpattern">
+            INFO@GRAFHESI.COM
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</footer>
+<!--copyRight-->
+<div class="copyRight"></div>
+</body>
+<!--js-->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script>
+  // تعریف متغیرها
+  var canvas = document.getElementById("myCanvas");
+  var ctx = canvas.getContext("2d");
+  var circles = [];
+  var selectedCircles = [];
+
+
+
+
+  // تابع برای ایجاد دایره
+  function Circle(x, y, radius, color, title, dx, dy) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.color = color;
+    this.title = title;
+    this.dx = dx;
+    this.dy = dy;
+  }
+
+  // تابع برای رسم دایره
+  Circle.prototype.draw = function() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "transparent";
+    ctx.stroke();
+    ctx.font = "10px Arial";
+    ctx.fillStyle = "#000";
+    ctx.fillText(this.title, this.x - 20, this.y);
+  };
+
+  // تابع برای بروزرسانی دایره‌ها و حرکت آنها
+  function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < circles.length; i++) {
+      var circle = circles[i];
+
+      // حرکت دایره
+      circle.x += circle.dx;
+      circle.y += circle.dy;
+
+      // برخورد دایره با مرز صفحه
+      if (circle.x + circle.radius > canvas.width || circle.x - circle.radius < 0) {
+        circle.dx = -circle.dx;
+      }
+      if (circle.y + circle.radius > canvas.height || circle.y - circle.radius < 0) {
+        circle.dy = -circle.dy;
+      }
+
+      circle.draw();
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  // تابع برای بررسی کلیک کردن روی دایره
+  function checkClick(event) {
+    var mouseX = event.pageX - canvas.offsetLeft;
+    var mouseY = event.pageY - canvas.offsetTop;
+
+    for (var i = 0; i < circles.length; i++) {
+      var circle = circles[i];
+      var dx = mouseX - circle.x;
+      var dy = mouseY - circle.y;
+      var distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < circle.radius) {
+        // تغییر اندازه دایره
+        circle.radius += 5;
+        circle.color = getRandomColor();
+        circle.draw();
+
+        // اضافه کردن دایره به دایره‌های انتخاب شده
+        selectedCircles.push(circle);
+
+        break;
+      }
+    }
+  }
+  function getRandomColor() {
+    var letters = "0123456789ABCDEF";
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color + "80"; // رنگ transparent
+  }
+  // تابع برای پست کردن عنوان دایره‌ی انتخاب شده
+  function postSelectedTitles() {
+    var selectedTitles = [];
+    for (var i = 0; i < selectedCircles.length; i++) {
+      var circle = selectedCircles[i];
+      selectedTitles.push(circle.title);
+    }
+    // ارسال عناوین دایره‌های انتخاب شده
+    var postedTitlesElement = document.getElementById("postedTitles");
+    postedTitlesElement.innerHTML = selectedTitles.join(", ");
+  }
+
+  // ایجاد 50 دایره با موقعیت و رنگ تصادفی
+  for (var i = 0; i < 20; i++) {
+    var x = Math.random() * (canvas.width - 30) + 20;
+    var y = Math.random() * (canvas.height - 30) + 20;
+    var radius = 30;
+    var color = getRandomColor();
+    var title = "عنوان " + (i + 1);
+    var dx = Math.random() * .5 - .5; // سرعت حرکت افقی
+    var dy = Math.random() * .5 - .5; // سرعت حرکت عمودی
+    circles.push(new Circle(x, y, radius, color, title, dx, dy));
+  }
+
+  // رسم دایره‌ها اولیه و شروع حرکت
+  update();
+
+  /*// اضافه کردن دایرهٔ ثابت به محیط canvas
+  var centerCircle = new Circle(canvas.width / 1, canvas.height / 1, 100, "#ccc", "سلام", 0, 0);
+  circles.push(centerCircle);
+
+  // تابع برای رسم دایرهٔ ثابت
+  function drawCenterCircleCenter() {
+    centerCircle.draw();
+  }
+
+  // تابع برای بروزرسانی دایرهٔ ثابت
+  function updateCenterCircle() {
+    // این دایره ثابت است، بنابراین می‌توانید تغییری در موقعیت یا اندازه آن اعمال نکنید
+    drawCenterCircle();
+  }
+
+  // اجرای تابع برای رسم دایرهٔ ثابت
+  drawCenterCircleCenter();*/
+
+
+  // بررسی کلیک کردن روی دایره
+  canvas.addEventListener("click", checkClick);
+
+  // بروزرسانی دایره‌ها هنگام تغییر اندازه صفحه نمایش
+  window.addEventListener("resize", function() {
+    update();
+  });
+</script>
+</html>
