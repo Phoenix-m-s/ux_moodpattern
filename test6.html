@@ -10,59 +10,36 @@
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
   <style>
-    /* #fixedCircle {
-       position: absolute;
-       top: 20%;
-       left: 20%;
-       transform: translate(-50%, -50%);
-       width: 150px; !* اندازه دلخواه دایره ثابت *!
-       height: 150px;
-       border-radius: 50%;
-       background-color: #acd6ef; !* یک رنگ خوشکل انتخاب کنید *!
-       text-align: center;
-       justify-content: center;
-       align-items: center;
-       color: #443a3a;
-       font-size: 12px;
-       display: inline-block;
-     }*/
-    #fixedCircle {
-      direction: rtl;
-      text-align: center;
-      width: 150px;
-      height: 150px;
-      border-radius:50%;
-      background-color: #c99898;
+    #circleContainer {
+      position: relative;
+      width: 570px;
+      height: 220px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    #leftCanvas {
+      left: 0;
+    }
+
+    #rightCanvas {
+      right: 0;
+    }
+
+    #centerCanvas {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       display: flex;
       justify-content: center;
       align-items: center;
       font-weight: bold;
-
       position: relative;
       z-index: -1;
+      font-family: "Tahoma", sans-serif;
     }
-
-
-    #myCanvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1;
-    }
-
-    #fixedCircle span {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    #rotatingCirclesCanvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
+    </style>
   </style>
 </head>
 <body>
@@ -116,21 +93,15 @@
   </nav>
 </header>
 <!--slider-->
-<div class="container" dir="rtl">
-
-
-  <div id="fixedCircle" class="m-5" >
-    <span>   رابطه ما با همه از نظر من احساسات برای من یعنی </span>
-    <canvas id="myCanvas" width="600" height="300" >
-
-    </canvas>
-
-  </div>
-
-
+<div class="col-md-8 mt-5">
+  <button class="btn btn-primary d-block" onclick="postSelectedTitles()">ارسال</button>
+  <div id="postedTitles"></div>
 </div>
-<button onclick="postSelectedTitles()">ارسال</button>
-<div id="postedTitles"></div>
+<div class="container d-flex w-100 justify-content-between">
+  <canvas class="canvas" id="leftCanvas" width="285" height="220"></canvas>
+  <div id="centerCanvas">Our Relationship with Emotions Means Everything to Me</div>
+  <canvas class="canvas" id="rightCanvas" width="285" height="220"></canvas>
+</div>
 <!--footer-->
 <footer class="footer">
   <div class="container">
@@ -193,18 +164,20 @@
 <!--js-->
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
-<script>
-  // تعریف متغیرها
-  var canvas = document.getElementById("myCanvas");
-  var ctx = canvas.getContext("2d");
-  var circles = [];
+<script type="text/javascript">
+  var leftCanvas = document.getElementById("leftCanvas");
+  var rightCanvas = document.getElementById("rightCanvas");
+
+  var leftCtx = leftCanvas.getContext("2d");
+  var rightCtx = rightCanvas.getContext("2d");
+
+  var leftCircles = [];
+  var rightCircles = [];
+
   var selectedCircles = [];
+  var clickCount = 0;
 
-
-
-
-  // تابع برای ایجاد دایره
-  function Circle(x, y, radius, color, title, dx, dy) {
+  function Circle(x, y, radius, color, title, dx, dy, data) {
     this.x = x;
     this.y = y;
     this.radius = radius;
@@ -212,10 +185,10 @@
     this.title = title;
     this.dx = dx;
     this.dy = dy;
+    this.data = data; // Add a data property to store additional information
   }
 
-  // تابع برای رسم دایره
-  Circle.prototype.draw = function() {
+  Circle.prototype.draw = function (ctx) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
     ctx.fillStyle = this.color;
@@ -223,39 +196,38 @@
     ctx.lineWidth = 1;
     ctx.strokeStyle = "transparent";
     ctx.stroke();
-    ctx.font = "12px Arial";
+    ctx.font = "10px Arial";
     ctx.fillStyle = "#000";
     ctx.fillText(this.title, this.x - 20, this.y);
   };
 
-  // تابع برای بروزرسانی دایره‌ها و حرکت آنها
-  function update() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  function update(ctx, circles) {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
     for (var i = 0; i < circles.length; i++) {
       var circle = circles[i];
 
-      // حرکت دایره
       circle.x += circle.dx;
       circle.y += circle.dy;
 
-      // برخورد دایره با مرز صفحه
-      if (circle.x + circle.radius > canvas.width || circle.x - circle.radius < 0) {
+      if (circle.x + circle.radius > ctx.canvas.width || circle.x - circle.radius < 0) {
         circle.dx = -circle.dx;
       }
-      if (circle.y + circle.radius > canvas.height || circle.y - circle.radius < 0) {
+      if (circle.y + circle.radius > ctx.canvas.height || circle.y - circle.radius < 0) {
         circle.dy = -circle.dy;
       }
 
-      circle.draw();
+      circle.draw(ctx);
     }
 
-    requestAnimationFrame(update);
+    requestAnimationFrame(function () {
+      update(ctx, circles);
+    });
   }
 
-  // تابع برای بررسی کلیک کردن روی دایره
-  function checkClick(event) {
-    var mouseX = event.pageX - canvas.offsetLeft;
-    var mouseY = event.pageY - canvas.offsetTop;
+  function checkClick(event, ctx, circles) {
+    var mouseX = event.pageX - ctx.canvas.offsetLeft;
+    var mouseY = event.pageY - ctx.canvas.offsetTop;
 
     for (var i = 0; i < circles.length; i++) {
       var circle = circles[i];
@@ -264,78 +236,105 @@
       var distance = Math.sqrt(dx * dx + dy * dy);
 
       if (distance < circle.radius) {
-        // تغییر اندازه دایره
         circle.radius += 5;
         circle.color = getRandomColor();
-        circle.draw();
+        circle.draw(ctx);
 
-        // اضافه کردن دایره به دایره‌های انتخاب شده
-        selectedCircles.push(circle);
+        if (circles === [centerCircle]) {
+          selectedCircles.push(circle);
+          // Store the event object in the circle data property
+          circle.data = event;
+
+          if (selectedCircles.length >= centerCircle.length / 4 * 3) {
+            resetCircles([centerCircle]);
+            clickCount = 0;
+          }
+        } else {
+          clickCount++;
+          if (clickCount >= 3) {
+            resizeCircles(leftCircles);
+            resizeCircles(rightCircles);
+            clickCount = 0;
+          }
+        }
 
         break;
       }
     }
   }
+
   function getRandomColor() {
     var letters = "0123456789ABCDEF";
     var color = "#";
     for (var i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
-    return color + "80"; // رنگ transparent
+    return color + "80";
   }
-  // تابع برای پست کردن عنوان دایره‌ی انتخاب شده
+
   function postSelectedTitles() {
     var selectedTitles = [];
     for (var i = 0; i < selectedCircles.length; i++) {
       var circle = selectedCircles[i];
       selectedTitles.push(circle.title);
     }
-    // ارسال عناوین دایره‌های انتخاب شده
+
     var postedTitlesElement = document.getElementById("postedTitles");
     postedTitlesElement.innerHTML = selectedTitles.join(", ");
   }
 
-  // ایجاد 50 دایره با موقعیت و رنگ تصادفی
+  function resetCircles(circles) {
+    selectedCircles = [];
+    for (var i = 0; i < circles.length; i++) {
+      var circle = circles[i];
+      circle.radius = 30;
+    }
+  }
+
+  function resizeCircles(circles) {
+    for (var i = 0; i < circles.length; i++) {
+      var circle = circles[i];
+      circle.radius += 5;
+      circle.color = getRandomColor();
+      circle.draw(ctx);
+    }
+  }
+
   for (var i = 0; i < 20; i++) {
-    var x = Math.random() * (canvas.width - 40) + 10;
-    var y = Math.random() * (canvas.height - 40) + 10;
+    var x = Math.random() * (leftCanvas.width - 0) + 0;
+    var y = Math.random() * (leftCanvas.height - 0) + 0;
     var radius = 30;
     var color = getRandomColor();
     var title = "عنوان " + (i + 1);
-    var dx = Math.random() * .5 - .5; // سرعت حرکت افقی
-    var dy = Math.random() * .5 - .5; // سرعت حرکت عمودی
-    circles.push(new Circle(x, y, radius, color, title, dx, dy));
+    var dx = Math.random() * .5 - .5;
+    var dy = Math.random() * .5 - .5;
+    leftCircles.push(new Circle(x, y, radius, color, title, dx, dy));
   }
 
-  // رسم دایره‌ها اولیه و شروع حرکت
-  update();
-
-  /*// اضافه کردن دایرهٔ ثابت به محیط canvas
-  var centerCircle = new Circle(canvas.width / 1, canvas.height / 1, 100, "#ccc", "سلام", 0, 0);
-  circles.push(centerCircle);
-
-  // تابع برای رسم دایرهٔ ثابت
-  function drawCenterCircleCenter() {
-    centerCircle.draw();
+  for (var i = 0; i < 20; i++) {
+    var x = Math.random() * (rightCanvas.width - 0) + 0;
+    var y = Math.random() * (rightCanvas.height - 0) + 0;
+    var radius = 30;
+    var color = getRandomColor();
+    var title = "عنوان " + (i + 21);
+    var dx = Math.random() * .5 - .5;
+    var dy = Math.random() * .5 - .5;
+    rightCircles.push(new Circle(x, y, radius, color, title, dx, dy, i));
   }
 
-  // تابع برای بروزرسانی دایرهٔ ثابت
-  function updateCenterCircle() {
-    // این دایره ثابت است، بنابراین می‌توانید تغییری در موقعیت یا اندازه آن اعمال نکنید
-    drawCenterCircle();
-  }
+  update(leftCtx, leftCircles);
+  update(rightCtx, rightCircles);
 
-  // اجرای تابع برای رسم دایرهٔ ثابت
-  drawCenterCircleCenter();*/
+  leftCanvas.addEventListener("click", function (event) {
+    checkClick(event, leftCtx, leftCircles);
+  });
 
-
-  // بررسی کلیک کردن روی دایره
-  canvas.addEventListener("click", checkClick);
-
-  // بروزرسانی دایره‌ها هنگام تغییر اندازه صفحه نمایش
-  window.addEventListener("resize", function() {
-    update();
+  rightCanvas.addEventListener("click", function (event) {
+    checkClick(event, rightCtx, rightCircles);
+  });
+  window.addEventListener("resize", function () {
+    update(leftCtx, leftCircles);
+    update(rightCtx, rightCircles);
   });
 </script>
 </html>
