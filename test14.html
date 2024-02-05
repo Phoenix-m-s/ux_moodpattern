@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tavanir</title>
+    <link rel="shortcut icon" href="assets/images/logo.svg">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .fixTableGreen{
+            text-align: center;
+            border-width: 0;
+            width: 24%;
+            font-size: 15px;
+            background-color: #347911;
+            color: white;
+            border-radius: 0 0 0 10px;
+            padding-top: 3px;
+        }
+
+        .fixTableRed {
+            text-align: center;
+            border-width: 0;
+            width: 24%;
+            font-size: 15px;
+            background-color: #9d191c;
+            color: white;
+            border-radius: 0 0 0 10px;
+            padding-top: 3px;
+        }
+    </style>
+</head>
+<!--
+<table  >
+    <tbody>
+    <tr class="mb-2">
+        <td class="fixTableGreen">
+            <p id="seconds">0</p>
+            <p class="p-1">ثانیه</p>
+        </td>
+        <td style="width:3px;"></td>
+        <td class="fixTableGreen">
+            <p id="minutes">0</p>
+            <p class="p-1">دقیقه</p>
+        </td>
+        <td style="width:3px;"></td>
+
+        <td class="fixTableGreen">
+            <p id="hours">0</p>
+            <p class="p-1">ساعت</p>
+        </td>
+        <td style="width:3px;"></td>
+
+        <td class="fixTableGreen">
+            <p id="days">0</p>
+            <p class="p-1">روز</p>
+        </td>
+    </tr>
+
+    <tr class="pt-2">
+        <td class="fixTableRed">
+            <span><strong>مشارکت</strong></span>
+        </td>
+        <td style="width:3px;"></td>
+
+        <td class="fixTableRed">
+
+            <span><strong>رقابت</strong></span>
+        </td>
+        <td style="width:3px;"></td>
+
+        <td class="fixTableRed">
+
+            <span><strong>سلامت</strong></span>
+        </td>
+        <td style="width:3px;"></td>
+
+        <td class="fixTableRed">
+
+            <span><strong>امنیت</strong></span>
+        </td>
+    </tr>
+    </tbody>
+</table>-->
+<table>
+    <tbody>
+    <tr class="mb-2">
+        <td class="fixTableGreen">
+            <p id="days">0</p>
+            <p class="p-1">روز</p>
+        </td>
+        <td style="width:3px;"></td>
+        <td class="fixTableGreen">
+            <p id="hours">0</p>
+            <p class="p-1">ساعت</p>
+        </td>
+        <td style="width:3px;"></td>
+        <td class="fixTableGreen">
+            <p id="minutes">0</p>
+            <p class="p-1">دقیقه</p>
+        </td>
+        <td style="width:3px;"></td>
+        <td class="fixTableGreen">
+            <p id="seconds">0</p>
+            <p class="p-1">ثانیه</p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+    function updateCounter() {
+        let days = document.getElementById('days');
+        let hours = document.getElementById('hours');
+        let minutes = document.getElementById('minutes');
+        let seconds = document.getElementById('seconds');
+
+        let targetDays = 24;
+        let targetHours = 20;
+        let targetMinutes = 15;
+        let targetSeconds = 30;
+
+        let currentDate = new Date();
+        let targetDate = new Date();
+        targetDate.setDate(targetDate.getDate() + targetDays);
+        targetDate.setHours(targetDate.getHours() + targetHours);
+        targetDate.setMinutes(targetDate.getMinutes() + targetMinutes);
+        targetDate.setSeconds(targetDate.getSeconds() + targetSeconds);
+
+        let diff = Math.max(targetDate - currentDate, 0); // Ensure non-negative value
+
+        let daysLeft = Math.floor(diff / (1000 * 60 * 60 * 24));
+        let hoursLeft = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutesLeft = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        let secondsLeft = Math.floor((diff % (1000 * 60)) / 1000);
+
+        days.innerHTML = formatNumber(daysLeft);
+        hours.innerHTML = formatNumber(hoursLeft);
+        minutes.innerHTML = formatNumber(minutesLeft);
+        seconds.innerHTML = formatNumber(secondsLeft);
+
+        setTimeout(updateCounter, 1000);
+    }
+
+    function formatNumber(number) {
+        return number < 10 ? '0' + number : number;
+    }
+
+    updateCounter();
+</script>
+
+</html>
