@@ -11,21 +11,28 @@
     *, ::after, ::before{
       border: none !important;
     }
+    body{
+      background: transparent !important;
+    }
 
     #leftCanvas {
+
+      background-clip:padding-box;
       left: 0;
-      box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.5); /* سایه دور کانوس راست با رنگ سبز و شفافیت 50% */
-      background-color: transparent !important;
+      position: absolute;
+      border: none;
+
     }
 
     #rightCanvas {
       right: 0;
-      box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.5); /* سایه دور کانوس چپ با رنگ سبز و شفافیت 50% */
-      background-color: transparent !important;
+      background-clip:padding-box;
+      border: none;
+      position: absolute;
     }
     .oval-shape {
-      width: 250px; /* تنظیم عرض به دلخواه */
-      height: 250px; /* تنظیم ارتفاع به دلخواه */
+      width: 200px; /* تنظیم عرض به دلخواه */
+      height: 200px; /* تنظیم ارتفاع به دلخواه */
       border-radius: 100% / 100%; /* ایجاد شکل بیضوی */
       color: #333333; /* رنگ متن */
       padding: 20px; /* پدینگ */
@@ -36,9 +43,10 @@
       direction: rtl;
       margin-left: auto;
       margin-right: auto;
+      margin-top: 25px;
       background-color: transparent !important; /* تنظیم پس‌زمینه به حالت شفاف */
       border: none; /* حذف حاشیه */
-      box-shadow: 0 0 0 30px #4caf50; /* ایجاد دایره دور کانوس با رنگ سبز */
+      box-shadow: 0 0 0 30px #c1f1e5; /* ایجاد دایره دور کانوس با رنگ سبز */
     }
   </style>
 </head>
@@ -98,12 +106,12 @@
 <div class="mt-5"></div>
 <div class="container d-flex w-100 justify-content-between">
 
-  <canvas class="canvas" id="leftCanvas" width="485" height="270"></canvas>
+  <canvas class="canvas" id="leftCanvas" width="500" height="300" style="background: transparent"></canvas>
   <div class="oval-shape">
     <!-- Your content goes here -->
     <p>رابطه ما با همه از نظر من احساسات برای من یعنی</p>
   </div>
-  <canvas class="canvas" id="rightCanvas" width="485" height="270"></canvas>
+  <canvas class="canvas" id="rightCanvas" width="500" height="300" style="background: transparent"></canvas>
 
 </div>
 <div class="col-md-12">
@@ -120,34 +128,33 @@
             <!-- اینجا اطلاعات دایره‌ها قرار می‌گیرد -->
           </ul>
         </div>
-    </div>
-    <div class="card-footer text-center">
-      <button class="btn btn-danger reset-btn" onclick="resetAllCircles()">ریست همه</button>
-      <button class="btn btn-primary submit-btn" onclick="postSelectedTitles()">ارسال</button>
+        <div class="card-footer text-center">
+          <button class="btn btn-danger reset-btn" onclick="resetAllCircles()">ریست همه</button>
+          <button class="btn btn-primary submit-btn" onclick="postSelectedTitles()">ارسال</button>
+        </div>
     </div>
   </div>
 </div>
-
-<!-- بخش footer -->
+<!--footer-->
 <footer class="footer">
   <div class="container">
     <div class="row">
       <div class="col-md-6">
+
         <img src="assets/images/logo.svg" alt="moodpattern" title="moodpattern">
+
         <img src="assets/images/textLogo.svg" alt="moodpattern" title="moodpattern">
 
         <!-- نقشه گوگل -->
         <!-- اضافه کردن نقشه از گوگل با استفاده از کد Embed شده -->
-        <iframe class="mt-2"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25897.79347643372!2d51.391414399999995!3d35.76986905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e06f8e6ad6b4b%3A0x4fde4f4d6ca30e47!2sVanak%2C%20District%203%2C%20Tehran%2C%20Tehran%20Province%2C%20Iran!5e0!3m2!1sen!2snl!4v1702829771308!5m2!1sen!2snl"
-                width="500" height="150" style="border:0;" allowfullscreen="" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe class="mt-2" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25897.79347643372!2d51.391414399999995!3d35.76986905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e06f8e6ad6b4b%3A0x4fde4f4d6ca30e47!2sVanak%2C%20District%203%2C%20Tehran%2C%20Tehran%20Province%2C%20Iran!5e0!3m2!1sen!2snl!4v1702829771308!5m2!1sen!2snl" width="500" height="150" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         <ul class="list-unstyled text-white" dir="ltr">
           <li>
             <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
             <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
             <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
             <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
+
           </li>
         </ul>
       </div>
@@ -157,8 +164,7 @@
         <ul class="list-unstyled text-white">
           <li>
             <img src="assets/images/map.svg" alt="moodpattern" title="moodpattern">
-            شعبه 1: خیابان پیروزی نرسیده به چهار راه گوگا گولا روبروی گوچه جعفر نژاد جنب کافی شاپ دیدار بالای داروحانه
-            شبانه روزی طبقه دوم
+            شعبه 1: خیابان پیروزی نرسیده به چهار راه گوگا گولا روبروی گوچه جعفر نژاد جنب کافی شاپ دیدار بالای داروحانه شبانه روزی طبقه دوم
           </li>
         </ul>
         <h5 class="text-white">تلفن</h5>
@@ -183,209 +189,211 @@
       </div>
     </div>
   </div>
+
 </footer>
 
-<!-- کپی رایت -->
-<div class="copyRight"></div>
 
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-  var leftCanvas = document.getElementById("leftCanvas");
-  var rightCanvas = document.getElementById("rightCanvas");
+  <!-- کپی رایت -->
+  <div class="copyRight"></div>
 
-  var leftCtx = leftCanvas.getContext("2d");
-  var rightCtx = rightCanvas.getContext("2d");
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    var leftCanvas = document.getElementById("leftCanvas");
+    var rightCanvas = document.getElementById("rightCanvas");
 
-  var leftCircles = [];
-  var rightCircles = [];
+    var leftCtx = leftCanvas.getContext("2d");
+    var rightCtx = rightCanvas.getContext("2d");
 
-  var selectedCircles = {};
-  var clickCount = 0;
+    var leftCircles = [];
+    var rightCircles = [];
 
-  function Circle(x, y, radius, color, title, dx, dy) {
-    this.x = x;
-    this.y = y;
-    this.radius = radius;
-    this.color = color;
-    this.title = title;
-    this.dx = dx;
-    this.dy = dy;
-  }
+    var selectedCircles = {};
+    var clickCount = 0;
 
-  Circle.prototype.draw = function (ctx) {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = "transparent";
-    ctx.stroke();
-    ctx.font = "10px Arial";
-    ctx.fillStyle = "#000";
-    ctx.fillText(this.title, this.x - 20, this.y);
-  };
-
-  function clipCanvas(ctx) {
-    ctx.beginPath();
-    ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.clip();
-  }
-
-  clipCanvas(leftCtx);
-  clipCanvas(rightCtx);
-
-  function update(ctx, circles) {
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-    for (var i = 0; i < circles.length; i++) {
-      var circle = circles[i];
-
-      circle.x += circle.dx;
-      circle.y += circle.dy;
-
-      if (circle.x + circle.radius > ctx.canvas.width || circle.x - circle.radius < 0) {
-        circle.dx = -circle.dx;
-      }
-      if (circle.y + circle.radius > ctx.canvas.height || circle.y - circle.radius < 0) {
-        circle.dy = -circle.dy;
-      }
-
-      circle.draw(ctx);
+    function Circle(x, y, radius, color, title, dx, dy) {
+      this.x = x;
+      this.y = y;
+      this.radius = radius;
+      this.color = color;
+      this.title = title;
+      this.dx = dx;
+      this.dy = dy;
     }
 
-    requestAnimationFrame(function () {
-      update(ctx, circles);
-    });
-  }
-  function checkClick(event, ctx, circles) {
-    var mouseX = event.pageX - ctx.canvas.offsetLeft;
-    var mouseY = event.pageY - ctx.canvas.offsetTop;
+    Circle.prototype.draw = function (ctx) {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "transparent";
+      ctx.stroke();
+      ctx.font = "10px Arial";
+      ctx.fillStyle = "#000";
+      ctx.fillText(this.title, this.x - 20, this.y);
+    };
 
-    for (var i = 0; i < circles.length; i++) {
-      var circle = circles[i];
-      var dx = mouseX - circle.x;
-      var dy = mouseY - circle.y;
-      var distance = Math.sqrt(dx * dx + dy * dy);
+    function clipCanvas(ctx) {
+      ctx.beginPath();
+      ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.clip();
+    }
 
-      if (distance < circle.radius) {
-        if (selectedCircles[circle.title] >= 3) {
-          // اگر تعداد کلیک‌ها بیشتر از 3 باشد، تغییر اندازه دایره را انجام نده
-          return;
+    clipCanvas(leftCtx);
+    clipCanvas(rightCtx);
+
+    function update(ctx, circles) {
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+      for (var i = 0; i < circles.length; i++) {
+        var circle = circles[i];
+
+        circle.x += circle.dx;
+        circle.y += circle.dy;
+
+        if (circle.x + circle.radius > ctx.canvas.width || circle.x - circle.radius < 0) {
+          circle.dx = -circle.dx;
+        }
+        if (circle.y + circle.radius > ctx.canvas.height || circle.y - circle.radius < 0) {
+          circle.dy = -circle.dy;
         }
 
+        circle.draw(ctx);
+      }
+
+      requestAnimationFrame(function () {
+        update(ctx, circles);
+      });
+    }
+    function checkClick(event, ctx, circles) {
+      var mouseX = event.pageX - ctx.canvas.offsetLeft;
+      var mouseY = event.pageY - ctx.canvas.offsetTop;
+
+      for (var i = 0; i < circles.length; i++) {
+        var circle = circles[i];
+        var dx = mouseX - circle.x;
+        var dy = mouseY - circle.y;
+        var distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < circle.radius) {
+          if (selectedCircles[circle.title] >= 3) {
+            // اگر تعداد کلیک‌ها بیشتر از 3 باشد، تغییر اندازه دایره را انجام نده
+            return;
+          }
+
+          circle.radius += 5;
+          circle.color = getRandomColor();
+          circle.draw(ctx);
+
+          if (circles === leftCircles || circles === rightCircles) {
+            if (!selectedCircles[circle.title]) {
+              selectedCircles[circle.title] = 1;
+            } else {
+              selectedCircles[circle.title]++;
+            }
+
+            if (Object.keys(selectedCircles).length >= circles.length / 4 * 3) {
+              resetCircles(circles);
+              clickCount = 0;
+            }
+          } else {
+            clickCount++;
+            if (clickCount >= 3) {
+              resizeCircles(leftCircles);
+              resizeCircles(rightCircles);
+              clickCount = 0;
+            }
+          }
+
+          break;
+        }
+      }
+    }
+
+
+    function postSelectedTitles() {
+      var selectedCirclesList = document.getElementById("selectedCirclesList");
+      selectedCirclesList.innerHTML = ""; // پاک کردن محتوای قبلی
+
+      for (var title in selectedCircles) {
+        if (selectedCircles.hasOwnProperty(title)) {
+          var listItem = document.createElement("li");
+          listItem.textContent = "عنوان: " + title + "، شعاع: " + selectedCircles[title];
+          selectedCirclesList.appendChild(listItem);
+        }
+      }
+    }
+
+
+    function resetCircles(circles) {
+      selectedCircles = {};
+      for (var i = 0; i < circles.length; i++) {
+        var circle = circles[i];
+        circle.radius = 30;
+      }
+    }
+
+    function resizeCircles(circles) {
+      for (var i = 0; i < circles.length; i++) {
+        var circle = circles[i];
         circle.radius += 5;
         circle.color = getRandomColor();
         circle.draw(ctx);
-
-        if (circles === leftCircles || circles === rightCircles) {
-          if (!selectedCircles[circle.title]) {
-            selectedCircles[circle.title] = 1;
-          } else {
-            selectedCircles[circle.title]++;
-          }
-
-          if (Object.keys(selectedCircles).length >= circles.length / 4 * 3) {
-            resetCircles(circles);
-            clickCount = 0;
-          }
-        } else {
-          clickCount++;
-          if (clickCount >= 3) {
-            resizeCircles(leftCircles);
-            resizeCircles(rightCircles);
-            clickCount = 0;
-          }
-        }
-
-        break;
       }
     }
-  }
 
+    function resetAllCircles() {
+      resetCircles(leftCircles);
+      resetCircles(rightCircles);
+    }
 
-  function postSelectedTitles() {
-    var selectedCirclesList = document.getElementById("selectedCirclesList");
-    selectedCirclesList.innerHTML = ""; // پاک کردن محتوای قبلی
-
-    for (var title in selectedCircles) {
-      if (selectedCircles.hasOwnProperty(title)) {
-        var listItem = document.createElement("li");
-        listItem.textContent = "عنوان: " + title + "، شعاع: " + selectedCircles[title];
-        selectedCirclesList.appendChild(listItem);
+    // Function to generate random color
+    function getRandomColor() {
+      var letters = "0123456789ABCDEF";
+      var color = "#";
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
       }
-    }
-  }
-
-
-  function resetCircles(circles) {
-    selectedCircles = {};
-    for (var i = 0; i < circles.length; i++) {
-      var circle = circles[i];
-      circle.radius = 30;
-    }
-  }
-
-  function resizeCircles(circles) {
-    for (var i = 0; i < circles.length; i++) {
-      var circle = circles[i];
-      circle.radius += 5;
-      circle.color = getRandomColor();
-      circle.draw(ctx);
-    }
-  }
-
-  function resetAllCircles() {
-    resetCircles(leftCircles);
-    resetCircles(rightCircles);
-  }
-
-  // Function to generate random color
-  function getRandomColor() {
-    var letters = "0123456789ABCDEF";
-    var color = "#";
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color + "80";
-  }
-
-  // Function to add circles to the list
-  function addCircles(circles, canvas, ctx) {
-    for (var i = 0; i < 20; i++) {
-      var x = Math.random() * (canvas.width - 0) + 0;
-      var y = Math.random() * (canvas.height - 0) + 0;
-      var radius = 30;
-      var color = getRandomColor();
-      var title = "عنوان " + (i + 1);
-      var dx = Math.random() * .5 - .5;
-      var dy = Math.random() * .5 - .5;
-      circles.push(new Circle(x, y, radius, color, title, dx, dy));
+      return color + "80";
     }
 
-    update(ctx, circles);
-  }
+    // Function to add circles to the list
+    function addCircles(circles, canvas, ctx) {
+      for (var i = 0; i < 20; i++) {
+        var x = Math.random() * (canvas.width - 0) + 0;
+        var y = Math.random() * (canvas.height - 0) + 0;
+        var radius = 30;
+        var color = getRandomColor();
+        var title = "عنوان " + (i + 1);
+        var dx = Math.random() * .5 - .5;
+        var dy = Math.random() * .5 - .5;
+        circles.push(new Circle(x, y, radius, color, title, dx, dy));
+      }
 
-  // Add circles to the left and right canvases
-  addCircles(leftCircles, leftCanvas, leftCtx);
-  addCircles(rightCircles, rightCanvas, rightCtx);
+      update(ctx, circles);
+    }
 
-  // Event listeners for canvas clicks
-  leftCanvas.addEventListener("click", function (event) {
-    checkClick(event, leftCtx, leftCircles);
-  });
+    // Add circles to the left and right canvases
+    addCircles(leftCircles, leftCanvas, leftCtx);
+    addCircles(rightCircles, rightCanvas, rightCtx);
 
-  rightCanvas.addEventListener("click", function (event) {
-    checkClick(event, rightCtx, rightCircles);
-  });
+    // Event listeners for canvas clicks
+    leftCanvas.addEventListener("click", function (event) {
+      checkClick(event, leftCtx, leftCircles);
+    });
 
-  // Resize event listener
-  window.addEventListener("resize", function () {
-    update(leftCtx, leftCircles);
-    update(rightCtx, rightCircles);
-  });
+    rightCanvas.addEventListener("click", function (event) {
+      checkClick(event, rightCtx, rightCircles);
+    });
 
-</script>
+    // Resize event listener
+    window.addEventListener("resize", function () {
+      update(leftCtx, leftCircles);
+      update(rightCtx, rightCircles);
+    });
+
+  </script>
 </body>
 
 </html>
