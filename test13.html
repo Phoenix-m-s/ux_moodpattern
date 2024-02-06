@@ -14,33 +14,37 @@
 
     #leftCanvas {
       left: 0;
-      overflow: hidden ;
+      box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.5); /* سایه دور کانوس راست با رنگ سبز و شفافیت 50% */
+      background-color: transparent !important;
     }
 
     #rightCanvas {
       right: 0;
-      overflow: hidden ;
+      box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.5); /* سایه دور کانوس چپ با رنگ سبز و شفافیت 50% */
+      background-color: transparent !important;
     }
     .oval-shape {
-      width: 250px; /* Adjust the width as needed */
-      height: 250px; /* Adjust the height as needed */
-      border-radius: 100% / 100%; /* Creates an oval shape */
-      background-color: #d6fccb; /* Dark background color */
-      color: #333333; /* Text color */
-      padding: 20px; /* Adjust padding as needed */
+      width: 250px; /* تنظیم عرض به دلخواه */
+      height: 250px; /* تنظیم ارتفاع به دلخواه */
+      border-radius: 100% / 100%; /* ایجاد شکل بیضوی */
+      color: #333333; /* رنگ متن */
+      padding: 20px; /* پدینگ */
       display: flex;
-      align-items: center; /* Center vertically */
-      justify-content: center; /* Center horizontally */
+      align-items: center; /* مرکز چینی عمودی */
+      justify-content: center; /* مرکز چینی افقی */
       text-align: right;
       direction: rtl;
       margin-left: auto;
       margin-right: auto;
+      background-color: transparent !important; /* تنظیم پس‌زمینه به حالت شفاف */
+      border: none; /* حذف حاشیه */
+      box-shadow: 0 0 0 30px #4caf50; /* ایجاد دایره دور کانوس با رنگ سبز */
     }
   </style>
 </head>
 
 <body>
-<header class="header">
+<header class="header mb-5">
   <nav class="navbar navbar-expand-lg bg-body-tertiary " dir="rtl">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -91,15 +95,15 @@
   </nav>
 </header>
 
+<div class="mt-5"></div>
+<div class="container d-flex w-100 justify-content-between">
 
-<div class="container d-flex w-100 justify-content-between mt-md-5">
-
-  <canvas class="canvas" id="leftCanvas" width="485" height="250"></canvas>
+  <canvas class="canvas" id="leftCanvas" width="485" height="270"></canvas>
   <div class="oval-shape">
     <!-- Your content goes here -->
     <p>رابطه ما با همه از نظر من احساسات برای من یعنی</p>
   </div>
-  <canvas class="canvas" id="rightCanvas" width="485" height="250"></canvas>
+  <canvas class="canvas" id="rightCanvas" width="485" height="270"></canvas>
 
 </div>
 <div class="col-md-12">
