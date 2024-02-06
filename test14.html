@@ -31,8 +31,8 @@
         }
     </style>
 </head>
-<!--
-<table  >
+<body dir="rtl">
+<table>
     <tbody>
     <tr class="mb-2">
         <td class="fixTableGreen">
@@ -82,31 +82,6 @@
         </td>
     </tr>
     </tbody>
-</table>-->
-<table>
-    <tbody>
-    <tr class="mb-2">
-        <td class="fixTableGreen">
-            <p id="days">0</p>
-            <p class="p-1">روز</p>
-        </td>
-        <td style="width:3px;"></td>
-        <td class="fixTableGreen">
-            <p id="hours">0</p>
-            <p class="p-1">ساعت</p>
-        </td>
-        <td style="width:3px;"></td>
-        <td class="fixTableGreen">
-            <p id="minutes">0</p>
-            <p class="p-1">دقیقه</p>
-        </td>
-        <td style="width:3px;"></td>
-        <td class="fixTableGreen">
-            <p id="seconds">0</p>
-            <p class="p-1">ثانیه</p>
-        </td>
-    </tr>
-    </tbody>
 </table>
 </body>
 
@@ -114,44 +89,35 @@
 <script src="assets/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 
-    function updateCounter() {
-        let days = document.getElementById('days');
-        let hours = document.getElementById('hours');
-        let minutes = document.getElementById('minutes');
-        let seconds = document.getElementById('seconds');
+    function countdownToElection() {
+        const electionDate = new Date();
+        electionDate.setDate(electionDate.getDate() + 24);
+        electionDate.setHours(9);
+        electionDate.setMinutes(44);
+        electionDate.setSeconds(0);
 
-        let targetDays = 24;
-        let targetHours = 20;
-        let targetMinutes = 15;
-        let targetSeconds = 30;
+        const now = new Date();
+        const timeRemaining = electionDate - now;
+        const secondsRemaining = Math.floor(timeRemaining / 1000);
 
-        let currentDate = new Date();
-        let targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() + targetDays);
-        targetDate.setHours(targetDate.getHours() + targetHours);
-        targetDate.setMinutes(targetDate.getMinutes() + targetMinutes);
-        targetDate.setSeconds(targetDate.getSeconds() + targetSeconds);
+        const days = Math.floor(secondsRemaining / (24 * 60 * 60));
+        const hours = Math.floor((secondsRemaining % (24 * 60 * 60)) / 3600);
+        const minutes = Math.floor((secondsRemaining % 3600) / 60);
+        const seconds = secondsRemaining % 60;
 
-        let diff = Math.max(targetDate - currentDate, 0); // Ensure non-negative value
+        document.getElementById("days").innerText = days;
+        document.getElementById("hours").innerText = hours;
+        document.getElementById("minutes").innerText = minutes;
+        document.getElementById("seconds").innerText = seconds;
 
-        let daysLeft = Math.floor(diff / (1000 * 60 * 60 * 24));
-        let hoursLeft = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let minutesLeft = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        let secondsLeft = Math.floor((diff % (1000 * 60)) / 1000);
-
-        days.innerHTML = formatNumber(daysLeft);
-        hours.innerHTML = formatNumber(hoursLeft);
-        minutes.innerHTML = formatNumber(minutesLeft);
-        seconds.innerHTML = formatNumber(secondsLeft);
-
-        setTimeout(updateCounter, 1000);
+        if (secondsRemaining <= 0) {
+            document.getElementById("countdownRow").innerHTML = '<td colspan="4">انتخابات آغاز شده است!</td>';
+        } else {
+            setTimeout(countdownToElection, 1000);
+        }
     }
 
-    function formatNumber(number) {
-        return number < 10 ? '0' + number : number;
-    }
-
-    updateCounter();
+    countdownToElection();
 </script>
 
 </html>
