@@ -25,8 +25,8 @@
       width: 250px; /* Adjust the width as needed */
       height: 250px; /* Adjust the height as needed */
       border-radius: 100% / 100%; /* Creates an oval shape */
-      background-color: #343a40; /* Dark background color */
-      color: #fff; /* Text color */
+      background-color: #d6fccb; /* Dark background color */
+      color: #333333; /* Text color */
       padding: 20px; /* Adjust padding as needed */
       display: flex;
       align-items: center; /* Center vertically */
@@ -102,29 +102,28 @@
   <canvas class="canvas" id="rightCanvas" width="485" height="250"></canvas>
 
 </div>
+<div class="col-md-12">
 
-<div class="row">
-  <div class="col-md-6">
-    <!-- دکمه ریست در بخش چپ -->
-    <div class="reset-btn-container">
-      <button class="btn btn-danger reset-btn" onclick="resetAllCircles()">ریست همه</button>
+  <div class="card bg-body-tertiary mt-5">
+
+
+    <div class="card-body " dir="rtl">
+      <!-- Add this PHP code to display password change errors -->
+      <ul class="list-group">
+        <div id="selectedCirclesInfo">
+          <h6>اطلاعات دایره‌های انتخاب شده:</h6>
+          <ul id="selectedCirclesList">
+            <!-- اینجا اطلاعات دایره‌ها قرار می‌گیرد -->
+          </ul>
+        </div>
     </div>
-  </div>
-  <div class="col-md-6">
-    <!-- دکمه ارسال در بخش راست -->
-    <div class="submit-btn-container">
+    <div class="card-footer text-center">
+      <button class="btn btn-danger reset-btn" onclick="resetAllCircles()">ریست همه</button>
       <button class="btn btn-primary submit-btn" onclick="postSelectedTitles()">ارسال</button>
     </div>
   </div>
-
-
 </div>
-<div id="selectedCirclesInfo">
-  <h3>اطلاعات دایره‌های انتخاب شده:</h3>
-  <ul id="selectedCirclesList">
-    <!-- اینجا اطلاعات دایره‌ها قرار می‌گیرد -->
-  </ul>
-</div>
+
 <!-- بخش footer -->
 <footer class="footer">
   <div class="container">
