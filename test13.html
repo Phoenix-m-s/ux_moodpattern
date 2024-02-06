@@ -22,8 +22,8 @@
       overflow: hidden ;
     }
     .oval-shape {
-      width: 200px; /* Adjust the width as needed */
-      height: 200px; /* Adjust the height as needed */
+      width: 250px; /* Adjust the width as needed */
+      height: 250px; /* Adjust the height as needed */
       border-radius: 100% / 100%; /* Creates an oval shape */
       background-color: #343a40; /* Dark background color */
       color: #fff; /* Text color */
@@ -90,29 +90,40 @@
     </div>
   </nav>
 </header>
-<div class="col-md-8 mt-5">
-  <button class="btn btn-primary d-block" onclick="postSelectedTitles()">ارسال</button>
-  <button class="btn btn-danger d-block reset-btn" onclick="resetAllCircles()">ریست همه</button>
 
-  <div id="postedTitles"></div>
-</div>
-<div class="container d-flex w-100 justify-content-between">
 
-  <canvas class="canvas" id="leftCanvas" width="445" height="250"></canvas>
+<div class="container d-flex w-100 justify-content-between mt-md-5">
+
+  <canvas class="canvas" id="leftCanvas" width="485" height="250"></canvas>
   <div class="oval-shape">
     <!-- Your content goes here -->
     <p>رابطه ما با همه از نظر من احساسات برای من یعنی</p>
   </div>
-  <!--<div id="#centerCanvas" class=" flex-shrink-0  h-100 rounded-circle p-4 d-flex flex-wrap bg-dark-subtle" >
-    <p>
-      رابطه ما با همه از نظر من احساسات برای من یعنی
-    </p>
-  </div>-->
-  <canvas class="canvas" id="rightCanvas" width="445" height="250"></canvas>
-
+  <canvas class="canvas" id="rightCanvas" width="485" height="250"></canvas>
 
 </div>
 
+<div class="row">
+  <div class="col-md-6">
+    <!-- دکمه ریست در بخش چپ -->
+    <div class="reset-btn-container">
+      <button class="btn btn-danger reset-btn" onclick="resetAllCircles()">ریست همه</button>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <!-- دکمه ارسال در بخش راست -->
+    <div class="submit-btn-container">
+      <button class="btn btn-primary submit-btn" onclick="postSelectedTitles()">ارسال</button>
+    </div>
+  </div>
+
+</div>
+<div id="selectedCirclesInfo">
+  <h3>اطلاعات دایره‌های انتخاب شده:</h3>
+  <ul id="selectedCirclesList">
+    <!-- اینجا اطلاعات دایره‌ها قرار می‌گیرد -->
+  </ul>
+</div>
 <!-- بخش footer -->
 <footer class="footer">
   <div class="container">
@@ -185,7 +196,7 @@
   var leftCircles = [];
   var rightCircles = [];
 
-  var selectedCircles = [];
+  var selectedCircles = {};
   var clickCount = 0;
 
   function Circle(x, y, radius, color, title, dx, dy) {
@@ -211,6 +222,15 @@
     ctx.fillText(this.title, this.x - 20, this.y);
   };
 
+  function clipCanvas(ctx) {
+    ctx.beginPath();
+    ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.clip();
+  }
+
+  clipCanvas(leftCtx);
+  clipCanvas(rightCtx);
+
   function update(ctx, circles) {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -234,7 +254,6 @@
       update(ctx, circles);
     });
   }
-
   function checkClick(event, ctx, circles) {
     var mouseX = event.pageX - ctx.canvas.offsetLeft;
     var mouseY = event.pageY - ctx.canvas.offsetTop;
@@ -246,14 +265,23 @@
       var distance = Math.sqrt(dx * dx + dy * dy);
 
       if (distance < circle.radius) {
+        if (selectedCircles[circle.title] >= 3) {
+          // اگر تعداد کلیک‌ها بیشتر از 3 باشد، تغییر اندازه دایره را انجام نده
+          return;
+        }
+
         circle.radius += 5;
         circle.color = getRandomColor();
         circle.draw(ctx);
 
         if (circles === leftCircles || circles === rightCircles) {
-          selectedCircles.push(circle);
+          if (!selectedCircles[circle.title]) {
+            selectedCircles[circle.title] = 1;
+          } else {
+            selectedCircles[circle.title]++;
+          }
 
-          if (selectedCircles.length >= circles.length / 4 * 3) {
+          if (Object.keys(selectedCircles).length >= circles.length / 4 * 3) {
             resetCircles(circles);
             clickCount = 0;
           }
@@ -271,28 +299,23 @@
     }
   }
 
-  function getRandomColor() {
-    var letters = "0123456789ABCDEF";
-    var color = "#";
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color + "80";
-  }
 
   function postSelectedTitles() {
-    var selectedTitles = [];
-    for (var i = 0; i < selectedCircles.length; i++) {
-      var circle = selectedCircles[i];
-      selectedTitles.push(circle.title);
-    }
+    var selectedCirclesList = document.getElementById("selectedCirclesList");
+    selectedCirclesList.innerHTML = ""; // پاک کردن محتوای قبلی
 
-    var postedTitlesElement = document.getElementById("postedTitles");
-    postedTitlesElement.innerHTML = selectedTitles.join(", ");
+    for (var title in selectedCircles) {
+      if (selectedCircles.hasOwnProperty(title)) {
+        var listItem = document.createElement("li");
+        listItem.textContent = "عنوان: " + title + "، شعاع: " + selectedCircles[title];
+        selectedCirclesList.appendChild(listItem);
+      }
+    }
   }
 
+
   function resetCircles(circles) {
-    selectedCircles = [];
+    selectedCircles = {};
     for (var i = 0; i < circles.length; i++) {
       var circle = circles[i];
       circle.radius = 30;
@@ -313,31 +336,37 @@
     resetCircles(rightCircles);
   }
 
-  for (var i = 0; i < 20; i++) {
-    var x = Math.random() * (leftCanvas.width - 0) + 0;
-    var y = Math.random() * (leftCanvas.height - 0) + 0;
-    var radius = 30;
-    var color = getRandomColor();
-    var title = "عنوان " + (i + 1);
-    var dx = Math.random() * .5 - .5;
-    var dy = Math.random() * .5 - .5;
-    leftCircles.push(new Circle(x, y, radius, color, title, dx, dy));
+  // Function to generate random color
+  function getRandomColor() {
+    var letters = "0123456789ABCDEF";
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color + "80";
   }
 
-  for (var i = 0; i < 20; i++) {
-    var x = Math.random() * (rightCanvas.width - 0) + 0;
-    var y = Math.random() * (rightCanvas.height - 0) + 0;
-    var radius = 30;
-    var color = getRandomColor();
-    var title = "عنوان " + (i + 21);
-    var dx = Math.random() * .5 - .5;
-    var dy = Math.random() * .5 - .5;
-    rightCircles.push(new Circle(x, y, radius, color, title, dx, dy));
+  // Function to add circles to the list
+  function addCircles(circles, canvas, ctx) {
+    for (var i = 0; i < 20; i++) {
+      var x = Math.random() * (canvas.width - 0) + 0;
+      var y = Math.random() * (canvas.height - 0) + 0;
+      var radius = 30;
+      var color = getRandomColor();
+      var title = "عنوان " + (i + 1);
+      var dx = Math.random() * .5 - .5;
+      var dy = Math.random() * .5 - .5;
+      circles.push(new Circle(x, y, radius, color, title, dx, dy));
+    }
+
+    update(ctx, circles);
   }
 
-  update(leftCtx, leftCircles);
-  update(rightCtx, rightCircles);
+  // Add circles to the left and right canvases
+  addCircles(leftCircles, leftCanvas, leftCtx);
+  addCircles(rightCircles, rightCanvas, rightCtx);
 
+  // Event listeners for canvas clicks
   leftCanvas.addEventListener("click", function (event) {
     checkClick(event, leftCtx, leftCircles);
   });
@@ -346,10 +375,12 @@
     checkClick(event, rightCtx, rightCircles);
   });
 
+  // Resize event listener
   window.addEventListener("resize", function () {
     update(leftCtx, leftCircles);
     update(rightCtx, rightCircles);
   });
+
 </script>
 </body>
 
