@@ -67,6 +67,25 @@ body{
 .navbar-nav {
     font-size: 12px; /* اندازه فونت برای آیتم‌های منو */
 }
+.search-container {
+    position: relative;
+}
+
+.search-input {
+    position: relative;
+}
+
+.search-input .form-control {
+    padding-left: 30px; /* اضافه کردن فضای کافی برای آیکون داخلی */
+}
+
+.search-input .SearchInput__icon {
+    position: absolute;
+    top: 50%; /* جابجایی عمودی به وسیله ترتیب به وسط */
+    left: 10px; /* فاصله از سمت راست */
+    transform: translateY(-50%); /* تنظیم جابجایی عمودی */
+}
+
 .sliderBox{
     width: 100%;
     height: 400px;

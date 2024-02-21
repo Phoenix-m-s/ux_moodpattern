@@ -13,70 +13,62 @@
         ::before {
             border: none !important;
         }
+        .container {
+            display: flex;
+            justify-content: space-between; /* فاصله بین کانوس‌ها */
+        }
 
-        body {
-            background: transparent !important;
-            z-index: -1 !important;
+        .canvas {
+            border: 0; /* حذف کادر */
+            outline: none; /* حذف حاشیه */
+            box-shadow: none; /* حذف سایه */
+            appearance: none; /* حذف سبک پیش‌فرض */
+            padding: 0;
         }
 
         #leftCanvas {
-            top: 0;
-            left: 0;
-            background-color: transparent;
-            background-clip: padding-box;
-
+            position: fixed;
+            left:0;
             z-index: 5;
-
         }
 
         #rightCanvas {
-            top: 0;
-            right: 0;
-            background-clip: padding-box;
+            position: fixed;
+            right:0;
             z-index: 5;
 
+        }
+        canvas {
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: transparent !important;
         }
 
 
         .oval-shape {
-            width: 200px;
-            /* تنظیم عرض به دلخواه */
-            height: 200px;
-            /* تنظیم ارتفاع به دلخواه */
-            border-radius: 100% / 100%;
-            /* ایجاد شکل بیضوی */
-            color: #333333;
-            /* رنگ متن */
-            padding: 20px;
-            /* پدینگ */
+            width: 240px;
+            height: 240px;
+            margin: 45px auto 0;
+            position: relative;
             display: flex;
             align-items: center;
-            /* مرکز چینی عمودی */
             justify-content: center;
-            /* مرکز چینی افقی */
-            text-align: right;
+            border-radius: 50%;
+            overflow: hidden; /* جلوگیری از نمایش ات لاین بیرون از دایره */
+            background-color: #FFFFFF; /* بک‌گراند سفید */
+            box-shadow: 0px 0px 0px 10px #77deae; /* ات لاین */
             direction: rtl;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 25px;
-            background-color: transparent !important;
-            /* تنظیم پس‌زمینه به حالت شفاف */
-            border: none;
-            /* حذف حاشیه */
-            box-shadow: 0 0 0 30px #c1f1e5;
-            /* ایجاد دایره دور کانوس با رنگ سبز */
-            overflow: hidden;
-            z-index: 3;
+            text-align: center;
+        }
 
+
+        /* محتوای داخل دایره */
+        .oval-content {
+            text-align: center; /* متن را در مرکز دایره میانه‌چین کنید */
+            padding: 20px; /* اضافه کردن پدینگ به محتوا */
         }
-        .canvas-container canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: transparent;
-        }
+
     </style>
 </head>
 
@@ -134,15 +126,14 @@
 
 <div class="mt-5"></div>
 <div class="container d-flex w-100 justify-content-between">
-
-    <canvas class="canvas" id="leftCanvas" width="500" height="300" style="overflow: clip;display: flex;"></canvas>
+    <canvas class="canvas" id="leftCanvas" width="600" height="270"></canvas>
     <div class="oval-shape">
         <!-- Your content goes here -->
         <p>رابطه ما با همه از نظر من احساسات برای من یعنی</p>
     </div>
-    <canvas class="canvas" id="rightCanvas" width="500" height="300" style="overflow: clip;display: flex;"></canvas>
-
+    <canvas class="canvas" id="rightCanvas" width="600" height="270"></canvas>
 </div>
+
 <div class="col-md-12">
 
     <div class="card bg-body-tertiary mt-5">
@@ -258,27 +249,17 @@
         ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
         ctx.fillStyle = this.color;
         ctx.fill();
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 0;
         ctx.strokeStyle = "transparent";
         ctx.stroke();
         ctx.font = "10px Arial";
         ctx.fillStyle = "#000";
+        ctx.background="transparent";
         ctx.fillText(this.title, this.x - 20, this.y);
     };
 
 
 
-    function setCanvasBackground(canvasId) {
-        var canvas = document.getElementById(canvasId);
-        if (canvas) {
-            canvas.style.backgroundColor = "transparent";
-            canvas.style.border = "none";
-        }
-    }
-
-    // اضافه کردن پس‌زمینه‌ی کنوس‌ها بدون کادر
-    setCanvasBackground("leftCanvas");
-    setCanvasBackground("rightCanvas");
 
 
     function clipCanvas(ctx) {
@@ -290,6 +271,9 @@
     clipCanvas(leftCtx);
     clipCanvas(rightCtx);
 
+    document.getElementById("leftCanvas").style.outline = "none";
+    document.getElementById("rightCanvas").style.outline = "none";
+
     function update(ctx, circles) {
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -299,10 +283,10 @@
             circle.x += circle.dx;
             circle.y += circle.dy;
 
-            if (circle.x + circle.radius > ctx.canvas.width || circle.x - circle.radius < 0) {
+            if (circle.x - circle.radius < 0 || circle.x + circle.radius > ctx.canvas.width) {
                 circle.dx = -circle.dx;
             }
-            if (circle.y + circle.radius > ctx.canvas.height || circle.y - circle.radius < 0) {
+            if (circle.y - circle.radius < 0 || circle.y + circle.radius > ctx.canvas.height) {
                 circle.dy = -circle.dy;
             }
 
@@ -313,6 +297,7 @@
             update(ctx, circles);
         });
     }
+
     function checkClick(event, ctx, circles) {
         var mouseX = event.pageX - ctx.canvas.offsetLeft;
         var mouseY = event.pageY - ctx.canvas.offsetTop;
@@ -379,11 +364,16 @@
     }
 
     // Function to add circles to the list
+    // Function to add circles to the list
     function addCircles(circles, canvas, ctx) {
         for (var i = 0; i < 20; i++) {
-            var x = Math.random() * (canvas.width - 0) + 0;
-            var y = Math.random() * (canvas.height - 0) + 0;
             var radius = 30;
+            var x, y;
+            do {
+                x = Math.random() * (canvas.width - 2 * radius) + radius; // برای جلوگیری از ایجاد دایره خارج از کادر، فاصله دوباره برای شعاع اضافه شده است
+                y = Math.random() * (canvas.height - 2 * radius) + radius;
+            } while (x + radius > canvas.width || x - radius < 0 || y + radius > canvas.height || y - radius < 0);
+
             var color = getRandomColor();
             var title = "عنوان " + (i + 1);
             var dx = Math.random() * .5 - .5;
@@ -393,6 +383,7 @@
 
         update(ctx, circles);
     }
+
 
     // Add circles to the left and right canvases
     addCircles(leftCircles, leftCanvas, leftCtx);
