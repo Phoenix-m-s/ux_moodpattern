@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>moodPattern</title>
+  <link rel="shortcut icon" href="assets/images/logo.svg">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    *,
+    ::after,
+    ::before {
+      border: none !important;
+    }
+    .container {
+      display: flex;
+      justify-content: space-between; /* فاصله بین کانوس‌ها */
+    }
+
+    .canvas {
+      border: 0; /* حذف کادر */
+      outline: none; /* حذف حاشیه */
+      box-shadow: none; /* حذف سایه */
+      appearance: none; /* حذف سبک پیش‌فرض */
+      padding: 0;
+    }
+
+    #leftCanvas {
+      position: fixed;
+      left:0;
+      z-index: 5;
+    }
+
+    #rightCanvas {
+      position: fixed;
+      right:0;
+      z-index: 5;
+
+    }
+    canvas {
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      background-color: transparent !important;
+    }
+
+
+    .oval-shape {
+      width: 240px;
+      height: 240px;
+      margin: 45px auto 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      overflow: hidden; /* جلوگیری از نمایش ات لاین بیرون از دایره */
+      background-color: #FFFFFF; /* بک‌گراند سفید */
+      box-shadow: 0px 0px 0px 10px #77deae; /* ات لاین */
+      direction: rtl;
+      text-align: center;
+    }
+
+
+    /* محتوای داخل دایره */
+    .oval-content {
+      text-align: center; /* متن را در مرکز دایره میانه‌چین کنید */
+      padding: 20px; /* اضافه کردن پدینگ به محتوا */
+    }
+
+    /* Add your custom styles here */
+
+    /* Responsive layout */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      #leftCanvas, #rightCanvas {
+        width: 100%;
+        margin: 10px 0;
+      }
+      .oval-shape {
+        width: 80%;
+        margin: 10px auto;
+      }
+    }
+    </style>
+  </style>
+</head>
+
+<body>
+<!-- Your HTML content here -->
+
+<div class="mt-5"></div>
+<div class="container d-flex w-100 justify-content-between">
+  <canvas class="canvas" id="leftCanvas" width="600" height="270"></canvas>
+  <div class="oval-shape">
+    <!-- Your content goes here -->
+    <p>رابطه ما با همه از نظر من احساسات برای من یعنی</p>
+  </div>
+  <canvas class="canvas" id="rightCanvas" width="600" height="270"></canvas>
+</div>
+
+<div class="col-md-12 mt-5">
+  <div class="card bg-body-tertiary">
+    <div class="card-body" dir="rtl">
+      <ul class="list-group">
+        <div id="selectedCirclesInfo">
+          <h6>اطلاعات دایره‌های انتخاب شده:</h6>
+          <ul id="selectedCirclesList">
+            <!-- Selected circles information will be displayed here -->
+          </ul>
+        </div>
+        <div class="card-footer text-center">
+          <button class="btn btn-primary submit-btn">ارسال</button>
+        </div>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript code -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script>
+  var leftCanvas = document.getElementById("leftCanvas");
+  var rightCanvas = document.getElementById("rightCanvas");
+  var leftCtx = leftCanvas.getContext("2d");
+  var rightCtx = rightCanvas.getContext("2d");
+  var leftCircles = [];
+  var rightCircles = [];
+  var selectedCircles = {};
+  var clickCount = 0;
+
+  function Circle(x, y, radius, color, title, dx, dy) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.originalRadius = radius;
+    this.color = color;
+    this.title = title;
+    this.dx = dx;
+    this.dy = dy;
+  }
+
+  Circle.prototype.draw = function (ctx) {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.lineWidth = 0;
+    ctx.strokeStyle = "#00FF00"; // Green border color
+    ctx.stroke();
+    ctx.font = "10px Arial";
+    ctx.fillStyle = "#000";
+    ctx.fillText(this.title, this.x - 20, this.y);
+  };
+
+  function clipCanvas(ctx) {
+    ctx.beginPath();
+    ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.clip();
+  }
+
+  clipCanvas(leftCtx);
+  clipCanvas(rightCtx);
+
+  function update(ctx, circles) {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    for (var i = 0; i < circles.length; i++) {
+      var circle = circles[i];
+
+      circle.x += circle.dx;
+      circle.y += circle.dy;
+
+      if (circle.x - circle.radius < 0 || circle.x + circle.radius > ctx.canvas.width) {
+        circle.dx = -circle.dx;
+      }
+      if (circle.y - circle.radius < 0 || circle.y + circle.radius > ctx.canvas.height) {
+        circle.dy = -circle.dy;
+      }
+
+      circle.draw(ctx);
+    }
+
+    requestAnimationFrame(function () {
+      update(ctx, circles);
+    });
+  }
+
+  function checkClick(event, ctx, circles) {
+    var rect = ctx.canvas.getBoundingClientRect();
+    var mouseX = event.clientX - rect.left;
+    var mouseY = event.clientY - rect.top;
+
+    for (var i = 0; i < circles.length; i++) {
+      var circle = circles[i];
+      var dx = mouseX - circle.x;
+      var dy = mouseY - circle.y;
+      var distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < circle.radius) {
+        if (!selectedCircles[circle.title]) {
+          selectedCircles[circle.title] = 1;
+        } else {
+          selectedCircles[circle.title]++;
+        }
+
+        if (clickCount % 6 < 3) {
+          circle.radius += 10;
+        } else {
+          circle.radius -= 10;
+        }
+
+        if (circle.radius < circle.originalRadius) {
+          circle.radius = circle.originalRadius;
+        }
+
+        circle.draw(ctx);
+
+        clickCount++;
+
+        if (clickCount === 6) {
+          clickCount = 0;
+        }
+
+        break;
+      }
+    }
+  }
+
+  function postSelectedTitles() {
+    var selectedCirclesList = document.getElementById("selectedCirclesList");
+    selectedCirclesList.innerHTML = "";
+
+    for (var title in selectedCircles) {
+      if (selectedCircles.hasOwnProperty(title)) {
+        var listItem = document.createElement("li");
+        listItem.textContent = "عنوان: " + title + "، تعداد کلیک: " + selectedCircles[title];
+        selectedCirclesList.appendChild(listItem);
+      }
+    }
+  }
+
+  document.querySelector(".submit-btn").addEventListener("click", function() {
+    postSelectedTitles();
+  });
+
+  function resetCircles(circles) {
+    selectedCircles = {};
+    for (var i = 0; i < circles.length; i++) {
+      var circle = circles[i];
+      circle.radius = circle.originalRadius;
+    }
+  }
+
+  function getRandomColor() {
+    var letters = "0123456789ABCDEF";
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color + "80";
+  }
+
+  function addCircles(circles, canvas, ctx) {
+    for (var i = 0; i < 20; i++) {
+      var radius = 30;
+      var x, y;
+      do {
+        x = Math.random() * (canvas.width - 2 * radius) + radius;
+        y = Math.random() * (canvas.height - 2 * radius) + radius;
+      } while (x + radius > canvas.width || x - radius < 0 || y + radius > canvas.height || y - radius < 0);
+
+      var color = getRandomColor();
+      var title = "عنوان " + (i + 1);
+      var dx = Math.random() * .5 - .5;
+      var dy = Math.random() * .5 - .5;
+      circles.push(new Circle(x, y, radius, color, title, dx, dy));
+    }
+
+    update(ctx, circles);
+  }
+
+  addCircles(leftCircles, leftCanvas, leftCtx);
+  addCircles(rightCircles, rightCanvas, rightCtx);
+
+  leftCanvas.addEventListener("click", function (event) {
+    checkClick(event, leftCtx, leftCircles);
+  });
+
+  rightCanvas.addEventListener("click", function (event) {
+    checkClick(event, rightCtx, rightCircles);
+  });
+
+  function resetAllCircles() {
+    resetCircles(leftCircles);
+    resetCircles(rightCircles);
+    clickCount = 0;
+  }
+</script>
+</body>
+
+</html>
