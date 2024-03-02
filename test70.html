@@ -151,12 +151,12 @@
 </header>
 <div class="mt-5"></div>
 <div class="container d-flex w-100 justify-content-between">
-  <canvas class="canvas" id="leftCanvas" width="600" height="270"></canvas>
+  <canvas class="canvas" id="leftCanvas" width="770" height="270"></canvas>
   <div class="oval-shape">
     <!-- Your content goes here -->
     <p>رابطه ما با همه از نظر من احساسات برای من یعنی</p>
   </div>
-  <canvas class="canvas" id="rightCanvas" width="600" height="270"></canvas>
+  <canvas class="canvas" id="rightCanvas" width="730" height="270"></canvas>
 </div>
 
 <div class="col-md-12 mt-5">
@@ -270,9 +270,18 @@
     ctx.lineWidth = 0;
     ctx.strokeStyle = "#00FF00"; // Green border color
     ctx.stroke();
-    ctx.font = "10px Arial";
+
+    // Clip the canvas to only draw text inside the circle
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+    ctx.clip();
+
+    // Draw text inside the circle
+    ctx.font = "12px Arial";
     ctx.fillStyle = "#000";
-    ctx.fillText(this.title, this.x - 20, this.y);
+    ctx.fillText(this.title, this.x - ctx.measureText(this.title).width / 2, this.y + 5);
+    ctx.restore();
   };
 
   function clipCanvas(ctx) {
@@ -382,10 +391,32 @@
     }
     return color + "80";
   }
+  var texts = [
+    "با عشق و احساس",
+    "زندگی را به اشتیاق تجربه کنید",
+    "همیشه بهترین خود باشید",
+    "عشق و صداقت را ارزانی کنید",
+    "از لحظه‌های زیبا لذت ببرید",
+    "به همه اطمینان کنید",
+    "به شجاعت و پایداری اعتماد کنید",
+    "با ارزش‌هایتان هماهنگ باشید",
+    "همیشه به دیگران کمک کنید",
+    "در زندگی با عشق و احساس عمیق زندگی کنید",
+    "با شادی و سرزندگی زندگی کنید",
+    "همیشه به آرزوهای خود پایبند باشید",
+    "از تجربیات یاد بگیرید",
+    "با خیال راحت زندگی کنید",
+    "به خود و انرژی مثبت خود اعتماد کنید",
+    "همیشه به دنبال رشد و بهبود باشید",
+    "به دیگران احترام بگذارید",
+    "با انرژی مثبت زندگی کنید",
+    "همیشه به دنبال آرامش و سکونت باشید",
+    "با شجاعت و اعتماد به نفس به دنبال رویای خود بروید"
+  ];
 
-  function addCircles(circles, canvas, ctx) {
+  function addCirclesWithTexts(circles, canvas, ctx, texts) {
     for (var i = 0; i < 20; i++) {
-      var radius = 30;
+      var radius = 40;
       var x, y;
       do {
         x = Math.random() * (canvas.width - 2 * radius) + radius;
@@ -393,7 +424,7 @@
       } while (x + radius > canvas.width || x - radius < 0 || y + radius > canvas.height || y - radius < 0);
 
       var color = getRandomColor();
-      var title = "عنوان " + (i + 1);
+      var title = texts[i];
       var dx = Math.random() * .5 - .5;
       var dy = Math.random() * .5 - .5;
       circles.push(new Circle(x, y, radius, color, title, dx, dy));
@@ -402,8 +433,9 @@
     update(ctx, circles);
   }
 
-  addCircles(leftCircles, leftCanvas, leftCtx);
-  addCircles(rightCircles, rightCanvas, rightCtx);
+  // اضافه کردن دایره‌های جدید با متن‌های ارایه
+  addCirclesWithTexts(leftCircles, leftCanvas, leftCtx, texts);
+  addCirclesWithTexts(rightCircles, rightCanvas, rightCtx, texts);
 
   leftCanvas.addEventListener("click", function (event) {
     checkClick(event, leftCtx, leftCircles);
