@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resizable Circles with D3.js</title>
+    <script src="assets/js/d3.v4.js"></script>
+    <style>
+        .circle {
+            fill: steelblue;
+            stroke: black;
+            stroke-width: 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<script>
+    const svgWidth = 500;
+    const svgHeight = 300;
+    const circleRadius = 30;
+
+    let clickCount = 0;
+
+    // Create SVG element
+    const svg = d3.select("body")
+        .append("svg")
+        .attr("width", svgWidth)
+        .attr("height", svgHeight);
+
+    // Function to handle circle click event
+    function handleCircleClick() {
+        clickCount++;
+
+        const circle = d3.select(this);
+
+        // Check if it's the first click or every third click
+        if (clickCount === 1 || clickCount % 3 === 0) {
+            // Increase circle size
+            circle.transition()
+                .attr("r", circleRadius * 1.5);
+        } else {
+            // Reset circle size
+            circle.transition()
+                .attr("r", circleRadius);
+        }
+    }
+
+    // Function to add circle
+    function addCircle(x, y) {
+        svg.append("circle")
+            .attr("class", "circle")
+            .attr("cx", x)
+            .attr("cy", y)
+            .attr("r", circleRadius)
+            .on("click", handleCircleClick);
+    }
+
+    // Add circles on click event
+    svg.on("click", function () {
+        const [x, y] = d3.mouse(this);
+        addCircle(x, y);
+    });
+
+</script>
+</body>
+</html>

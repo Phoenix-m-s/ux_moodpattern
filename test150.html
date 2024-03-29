@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D3.js Circles</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+  .tooltip {
+    position: absolute;
+    text-align: center;
+    width: 80px;
+    height: 28px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+    opacity: 0;
+  }
+</style>
+</head>
+<body>
+
+<div id="my_dataviz"></div>
+
+<script>
+
+// set the dimensions and margins of the graph
+const width = 500;
+const height = 500;
+
+// append the svg object to the body of the page
+const svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+// Data from a static array
+const data = [
+  { region: "Asia", value: 1000000000 },
+  { region: "Europe", value: 500000000 },
+  { region: "Africa", value: 200000000 },
+  { region: "Oceania", value: 50000000 },
+  { region: "Americas", value: 900000000 }
+];
+
+// Data titles
+const titles = Array.from({length: 10}, (_, i) => "Title " + (i + 1));
+
+// Color palette for continents
+const color = d3.scaleOrdinal()
+  .domain(["Asia", "Europe", "Africa", "Oceania", "Americas"])
+  .range(d3.schemeSet1);
+
+// Size scale for countries
+const size = d3.scaleLinear()
+  .domain([0, 1400000000])
+  .range([20, 50]);  // Set circle size range
+
+// create a tooltip
+const Tooltip = d3.select("#my_dataviz")
+  .append("div")
+  .style("opacity", 0)
+  .attr("class", "tooltip");
+
+// Initialize click counter
+let clickCount = 0;
+
+// Initialize the circle: all located at the center of the svg area
+const node = svg.selectAll(".node")
+  .data(data)
+  .enter()
+  .append("g")
+  .attr("class", "node")
+  .attr("transform", (d, i) => "translate(" + (50 + i * 100) + "," + height / 2 + ")")
+  .on("mouseover", function(event, d) {
+    Tooltip.style("opacity", 1)
+           .html('<u>' + d.region + '</u>' + "<br>" + d.value + " inhabitants")
+           .style("left", (event.pageX) + "px")
+           .style("top", (event.pageY - 28) + "px");
+  })
+  .on("mouseleave", function() {
+    Tooltip.style("opacity", 0);
+  })
+  .on("click", clicked)
+  .call(d3.drag() 
+         .on("start", dragstarted)
+         .on("drag", dragged)
+         .on("end", dragended));
+
+// Append circles to each group
+node.append("circle")
+  .attr("r", d => size(d.value))
+  .style("fill", (d, i) => color(i))
+  .attr("stroke", "black")
+  .style("stroke-width", 1);
+
+// Append text to each group
+node.append("text")
+  .attr("text-anchor", "middle")
+  .attr("dominant-baseline", "middle")
+  .text((d, i) => titles[i]);
+
+// Features of the forces applied to the nodes:
+const simulation = d3.forceSimulation()
+  .force("center", d3.forceCenter().x(width / 2).y(height / 2)) // Attraction to the center of the svg area
+  .force("charge", d3.forceManyBody().strength(.1)) // Nodes are attracted to each other if value is > 0
+  .force("collide", d3.forceCollide().strength(.2).radius(function(d){ return (size(d.value)+3) }).iterations(1)) // Force that avoids circle overlapping;
+
+// Apply these forces to the nodes and update their positions.
+simulation
+  .nodes(data)
+  .on("tick", function(d){
+    node.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
+  });
+
+// What happens when a circle is clicked?
+function clicked(event, d) {
+  clickCount++;
+  const clickedNode = d3.select(this);
+  const circle = clickedNode.select("circle");
+  const text = clickedNode.select("text");
+  
+  let circleSize = parseFloat(circle.attr("r"));
+
+  if (clickCount <= 3) {
+    // Increase circle size
+    circle.transition()
+      .duration(500)
+      .attr("r", circleSize + 10);
+  } else if (clickCount <= 6) {
+    // Decrease circle size
+    circle.transition()
+      .duration(500)
+      .attr("r", circleSize - 10);
+  } else {
+    // Reset click count
+    clickCount = 0;
+    // Reset circle size to initial value
+    circle.transition()
+      .duration(500)
+      .attr("r", size(d.value));
+  }
+
+  // Move text to the center of the circle
+  text.attr("transform", "translate(0," + (-circleSize) + ")");
+}
+
+// What happens when a circle is dragged?
+function dragstarted(event, d) {
+  if (!event.active) simulation.alphaTarget(.03).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+
+function dragged(event, d) {
+  d.fx = event.x;
+  d.fy = event.y;
+}
+
+function dragended(event, d) {
+  if (!event.active) simulation.alphaTarget(.03);
+  d.fx = null;
+  d.fy = null;
+}
+
+</script>
+
+</body>
+</html>
