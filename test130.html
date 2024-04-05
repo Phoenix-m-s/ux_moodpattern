@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D3.js Circles</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    .tooltip {
+      position: absolute;
+      text-align: center;
+      width: 80px;
+      height: 28px;
+      padding: 2px;
+      font: 12px sans-serif;
+      background: lightsteelblue;
+      border: 0px;
+      border-radius: 8px;
+      pointer-events: none;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div id="my_dataviz"></div>
+
+<script>
+  // set the dimensions and margins of the graph
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  // append the svg object to the body of the page
+  const svg = d3.select("#my_dataviz")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height);
+
+  // Data for 20 circles with random positions and radii
+  const data = Array.from({length: 20}, () => ({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    radius: Math.random() * 30 + 20 // random radius between 20 and 50
+  }));
+
+  // Color palette for circles
+  const color = d3.scaleOrdinal(d3.schemeSet1);
+
+  // create a tooltip
+  const Tooltip = d3.select("#my_dataviz")
+          .append("div")
+          .style("opacity", 0)
+          .attr("class", "tooltip");
+
+  // Initialize the circle: all located at the random positions
+  const node = svg.selectAll(".node")
+          .data(data)
+          .enter()
+          .append("g")
+          .attr("class", "node")
+          .attr("transform", d => "translate(" + d.x + "," + d.y + ")")
+          .on("mouseover", function(event, d) {
+            Tooltip.style("opacity", 1)
+                    .html('<u>' + d.region + '</u>' + "<br>" + d.value + " inhabitants")
+                    .style("left", (event.pageX) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+          })
+          .on("mouseleave", function() {
+            Tooltip.style("opacity", 0);
+          })
+          .on("click", clicked);
+
+  // Append circles to each group
+  node.append("circle")
+          .attr("r", d => d.radius)
+          .style("fill", (_, i) => color(i))
+          .attr("stroke", "black")
+          .style("stroke-width", 1);
+
+  // Features of the forces applied to the nodes:
+  const simulation = d3.forceSimulation(data)
+          .force("collide", d3.forceCollide().radius(d => d.radius + 5).strength(0.7).iterations(1)) // Force that avoids circle overlapping
+          .on("tick", () => {
+            node.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
+          });
+
+  // What happens when a circle is clicked?
+  function clicked(event, d) {
+    d.radius += 10; // Increase circle size
+    d3.select(this).select("circle")
+            .transition()
+            .duration(500)
+            .attr("r", d.radius);
+  }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3.js Circles</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 80px;
+            height: 28px;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div id="my_dataviz"></div>
+
+<script>
+
+    // set the dimensions and margins of the graph
+    const width = 1000;
+    const height = 1000;
+
+    // append the svg object to the body of the page
+    const svg = d3.select("#my_dataviz")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
+
+    // Data for circles
+    const data = Array.from({ length: 50 }, (_, i) => ({ region: "Region " + (i + 1), value: Math.floor(Math.random() * 1000000000) }));
+
+    // Titles for circles
+    const titles = ["محبت",
+        "عشق",
+        "دوستی",
+        "آرامش",
+        "آرزو",
+        "شوق",
+        "غم",
+        "شادی",
+        "احساس",
+        "احترام",
+        "زیبایی",
+        "آسایش",
+        "همدلی",
+        "رمانتیسم",
+        "حنان",
+        "الفت",
+        "همنشینی",
+        "سعادت",
+        "اراده",
+        "اشتیاق",
+        "تعلق",
+        "سیرت",
+        "رفاقت",
+        "همبستگی",
+        "معنویت",
+        "یاری",
+        "آشتی",
+        "خواب",
+        "وصال",
+        "تفریح",
+        "شیفتگی",
+        "یگانگی",
+        "عاشقی",
+        "تمایل",
+        "همدلانه",
+        "صمیمیت",
+        "شادمانی",
+        "معصومیت",
+        "هوس",
+        "هیجان",
+        "وابستگی",
+        "منفعت",
+        "التفات",
+        "دلبستگی",
+        "پایبندی",
+        "عاطفت",
+        "پیمان",
+        "محبوبیت",
+        "غرامت",
+        "مدد"];
+
+    // Color scale for circles
+    const color = d3.scaleOrdinal()
+        .domain(titles)
+        .range(d3.schemeCategory10);
+
+    // Size scale for circles
+    const size = d3.scaleLinear()
+        .domain(d3.extent(data, d => d.value))
+        .range([10, 50]);
+
+    // create a tooltip
+    const Tooltip = d3.select("#my_dataviz")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip");
+
+    // Initialize click counter
+    let clickCount = 0;
+
+    // Initialize the circles
+    const node = svg.selectAll(".node")
+        .data(data)
+        .enter()
+        .append("g")
+        .attr("class", "node")
+        .attr("transform", (d, i) => "translate(" + (50 + i * 20) + "," + height / 2 + ")")
+        .on("mouseover", function(event, d) {
+            Tooltip.style("opacity", 1)
+                .html('<u>' + d.region + '</u>' + "<br>" + d.value + " inhabitants")
+                .style("left", (event.pageX) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseleave", function() {
+            Tooltip.style("opacity", 0);
+        })
+        .on("click", clicked)
+        .call(d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended));
+
+    // Append circles to each group
+    node.append("circle")
+        .attr("r", d => size(d.value))
+        .style("fill", (d, i) => color(titles[i]))
+        .attr("stroke", "black")
+        .style("stroke-width", 1);
+
+    // Append text to each group
+    node.append("text")
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .text((d, i) => titles[i]);
+
+    // Features of the forces applied to the nodes:
+    const simulation = d3.forceSimulation()
+        .force("center", d3.forceCenter().x(width / 2).y(height / 2)) // Attraction to the center of the svg area
+        .force("charge", d3.forceManyBody().strength(.1)) // Nodes are attracted to each other if value is > 0
+        .force("collide", d3.forceCollide().strength(.2).radius(function(d){ return (size(d.value) + 3); }).iterations(1)) // Force that avoids circle overlapping;
+
+    // Apply these forces to the nodes and update their positions.
+    simulation
+        .nodes(data)
+        .on("tick", function(d){
+            node.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
+        });
+    simulation
+        .nodes(words.map((d, i) => ({ word: d, index: i })))
+        .on("tick", function(d){
+            node.attr("transform", function(d) {
+                d.x = Math.max(size(words.indexOf(d.word)), Math.min(width - size(words.indexOf(d.word)), d.x));
+                d.y = Math.max(size(words.indexOf(d.word)), Math.min(height - size(words.indexOf(d.word)), d.y));
+                return "translate(" + d.x + "," + d.y + ")";
+            });
+            node.selectAll("circle")
+                .attr("r", function(d) {
+                    return size(words.indexOf(d.word));
+                });
+        });
+
+    // What happens when a circle is clicked?
+    function clicked(event, d) {
+        clickCount++;
+        const clickedNode = d3.select(this);
+        const circle = clickedNode.select("circle");
+        const text = clickedNode.select("text");
+
+        let circleSize = parseFloat(circle.attr("r"));
+
+        if (clickCount <= 3) {
+            // Increase circle size
+            circle.transition()
+                .duration(500)
+                .attr("r", circleSize + 10);
+        } else if (clickCount <= 6) {
+            // Decrease circle size
+            circle.transition()
+                .duration(500)
+                .attr("r", circleSize - 10);
+        } else {
+            // Reset click count
+            clickCount = 0;
+        }
+
+        // Move text to the center of the circle
+        text.attr("transform", "translate(0," + (-circleSize) + ")");
+    }
+
+    // What happens when a circle is dragged?
+    function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(.03).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+
+    function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+    }
+
+    function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(.03);
+        d.fx = null;
+        d.fy = null;
+    }
+
+</script>
+
+</body>
+</html>
