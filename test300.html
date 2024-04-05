@@ -21,7 +21,7 @@
             padding: 2px;
             font: 12px sans-serif;
             background: lightsteelblue;
-            border: 0px;
+            border: 0;
             border-radius: 8px;
             pointer-events: none;
             opacity: 0;
@@ -40,6 +40,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
     </style>
 </head>
 <body>
@@ -101,10 +102,93 @@
         </div>
     </nav>
 </header>
-<div id="my_dataviz"></div>
-<button id="submit-btn" onclick="submitData()">ارسال</button>
-<div id="data"></div>
+<div class="container">
+    <div class="col-md-8 mx-auto my-auto">
+        <div id="my_dataviz"></div>
+    </div>
+</div>
+<div class="col-md-8 mx-auto my-auto mt-5">
+    <div class="card bg-body-tertiary">
+        <div class="card-header text-center">
+            <h6>اطلاعات دایره‌های انتخاب شده:</h6>
+        </div>
+        <div class="card-body" dir="rtl">
+            <ul class="list-group">
+                <div id="selectedCirclesInfo">
 
+                    <ul id="selectedCirclesList">
+                        <div id="data"></div>
+                    </ul>
+                </div>
+            </ul>
+        </div>
+
+        <div class="card-footer float-end">
+            <button id="submit-btn" onclick="submitData()">ارسال</button>
+        </div>
+    </div>
+</div>
+
+<!--footer-->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+
+                <img src="assets/images/logo.svg" alt="moodpattern" title="moodpattern">
+
+                <img src="assets/images/textLogo.svg" alt="moodpattern" title="moodpattern">
+
+                <!-- نقشه گوگل -->
+                <!-- اضافه کردن نقشه از گوگل با استفاده از کد Embed شده -->
+                <iframe class="mt-2" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25897.79347643372!2d51.391414399999995!3d35.76986905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e06f8e6ad6b4b%3A0x4fde4f4d6ca30e47!2sVanak%2C%20District%203%2C%20Tehran%2C%20Tehran%20Province%2C%20Iran!5e0!3m2!1sen!2snl!4v1702829771308!5m2!1sen!2snl" width="500" height="150" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <ul class="list-unstyled text-white" dir="ltr">
+                    <li>
+                        <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
+                        <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
+                        <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
+                        <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
+
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6 mt-5" dir="rtl">
+                <!-- اطلاعات تماس -->
+                <h5 class="text-white">اطلاعات تماس</h5>
+                <ul class="list-unstyled text-white">
+                    <li>
+                        <img src="assets/images/map.svg" alt="moodpattern" title="moodpattern">
+                        شعبه 1: خیابان پیروزی نرسیده به چهار راه گوگا گولا روبروی گوچه جعفر نژاد جنب کافی شاپ دیدار بالای داروحانه شبانه روزی طبقه دوم
+                    </li>
+                </ul>
+                <h5 class="text-white">تلفن</h5>
+                <ul class="list-unstyled text-white" dir="rtl">
+                    <li>
+                        <img src="assets/images/call.svg" alt="moodpattern" title="moodpattern">
+                        021-36601073
+                        <img src="assets/images/call.svg" alt="moodpattern" title="moodpattern">
+                        021-36601073
+                        <img src="assets/images/call.svg" alt="moodpattern" title="moodpattern">
+                        021-36601073
+                    </li>
+                </ul>
+                <!-- اطلاعات تماس -->
+                <h5 class="text-white">ایمیل :</h5>
+                <ul class="list-unstyled text-white">
+                    <li>
+                        <img src="assets/images/email.svg" alt="moodpattern" title="moodpattern">
+                        INFO@GRAFHESI.COM
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</footer>
+</body>
+<!--js-->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
 <script>
 
     // set the dimensions and margins of the graph
@@ -301,65 +385,4 @@
     }
 
 </script>
-
-<!--footer-->
-<footer class="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-
-                <img src="assets/images/logo.svg" alt="moodpattern" title="moodpattern">
-
-                <img src="assets/images/textLogo.svg" alt="moodpattern" title="moodpattern">
-
-                <!-- نقشه گوگل -->
-                <!-- اضافه کردن نقشه از گوگل با استفاده از کد Embed شده -->
-                <iframe class="mt-2" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25897.79347643372!2d51.391414399999995!3d35.76986905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e06f8e6ad6b4b%3A0x4fde4f4d6ca30e47!2sVanak%2C%20District%203%2C%20Tehran%2C%20Tehran%20Province%2C%20Iran!5e0!3m2!1sen!2snl!4v1702829771308!5m2!1sen!2snl" width="500" height="150" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                <ul class="list-unstyled text-white" dir="ltr">
-                    <li>
-                        <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
-                        <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
-                        <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
-                        <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
-
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-6 mt-5" dir="rtl">
-                <!-- اطلاعات تماس -->
-                <h5 class="text-white">اطلاعات تماس</h5>
-                <ul class="list-unstyled text-white">
-                    <li>
-                        <img src="assets/images/map.svg" alt="moodpattern" title="moodpattern">
-                        شعبه 1: خیابان پیروزی نرسیده به چهار راه گوگا گولا روبروی گوچه جعفر نژاد جنب کافی شاپ دیدار بالای داروحانه شبانه روزی طبقه دوم
-                    </li>
-                </ul>
-                <h5 class="text-white">تلفن</h5>
-                <ul class="list-unstyled text-white" dir="rtl">
-                    <li>
-                        <img src="assets/images/call.svg" alt="moodpattern" title="moodpattern">
-                        021-36601073
-                        <img src="assets/images/call.svg" alt="moodpattern" title="moodpattern">
-                        021-36601073
-                        <img src="assets/images/call.svg" alt="moodpattern" title="moodpattern">
-                        021-36601073
-                    </li>
-                </ul>
-                <!-- اطلاعات تماس -->
-                <h5 class="text-white">ایمیل :</h5>
-                <ul class="list-unstyled text-white">
-                    <li>
-                        <img src="assets/images/email.svg" alt="moodpattern" title="moodpattern">
-                        INFO@GRAFHESI.COM
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-</footer>
-</body>
-<!--js-->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
 </html>
