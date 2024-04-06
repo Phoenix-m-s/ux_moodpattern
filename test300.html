@@ -26,21 +26,6 @@
             pointer-events: none;
             opacity: 0;
         }
-
-        #form {
-            margin-bottom: 20px;
-        }
-
-        #submit-btn {
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
     </style>
 </head>
 <body>
@@ -103,11 +88,11 @@
     </nav>
 </header>
 <div class="container">
-    <div class="col-md-8 mx-auto my-auto">
+    <div class="col-md-8 mx-auto my-auto mb-5">
         <div id="my_dataviz"></div>
     </div>
 </div>
-<div class="col-md-8 mx-auto my-auto mt-5">
+<div class="col-md-8 mx-auto my-auto">
     <div class="card bg-body-tertiary">
         <div class="card-header text-center">
             <h6>اطلاعات دایره‌های انتخاب شده:</h6>
@@ -124,7 +109,7 @@
         </div>
 
         <div class="card-footer float-end">
-            <button id="submit-btn" onclick="submitData()">ارسال</button>
+            <button class="btn btn-success rounded-5" id="submit-btn" onclick="submitData()">ارسال</button>
         </div>
     </div>
 </div>
@@ -183,17 +168,21 @@
             </div>
         </div>
     </div>
-
 </footer>
+
+<!--copyRight-->
+<div class="copyRight"></div>
 </body>
 <!--js-->
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 <script>
 
-    // set the dimensions and margins of the graph
+
+    <!-- تنظیم ابعاد SVG -->
     const width = 1000;
-    const height = 1000;
+    const height = 800;
+
 
     // append the svg object to the body of the page
     const svg = d3.select("#my_dataviz")
