@@ -26,6 +26,11 @@
             pointer-events: none;
             opacity: 0;
         }
+        #my_dataviz svg {
+            opacity: 0.9; /* برای مثال، تنظیم شفافیت به 0.7 */
+        }
+
+
     </style>
 </head>
 <body>
@@ -88,11 +93,11 @@
     </nav>
 </header>
 <div class="container">
-    <div class="col-md-8 mx-auto my-auto mb-5">
+    <div class="col-md-8 mx-auto my-auto">
         <div id="my_dataviz"></div>
     </div>
 </div>
-<div class="col-md-8 mx-auto my-auto">
+<div class="col-md-8 mx-auto my-auto mt-5">
     <div class="card bg-body-tertiary">
         <div class="card-header text-center">
             <h6>اطلاعات دایره‌های انتخاب شده:</h6>
@@ -109,7 +114,7 @@
         </div>
 
         <div class="card-footer float-end">
-            <button class="btn btn-success rounded-5" id="submit-btn" onclick="submitData()">ارسال</button>
+            <button class="btn btn-success rounded-5 " id="submit-btn" onclick="submitData()">ارسال</button>
         </div>
     </div>
 </div>
@@ -168,10 +173,9 @@
             </div>
         </div>
     </div>
+    <!--copyRight-->
+    <div class="copyRight"></div>
 </footer>
-
-<!--copyRight-->
-<div class="copyRight"></div>
 </body>
 <!--js-->
 <script src="assets/js/jquery.min.js"></script>
@@ -372,6 +376,11 @@
             dataDiv.innerHTML += "عنوان: " + item.title + " - " + "تعداد کلیک: " + item.clicks + "<br>";
         });
     }
+
+
+
+
+
 
 </script>
 </html>
