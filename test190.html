@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>moodPattern</title>
+    <link rel="shortcut icon" href="assets/images/logo.svg">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        *,
+        ::after,
+        ::before {
+            border: none !important;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between; /* فاصله بین کانوس‌ها */
+        }
+
+        .canvas {
+            border: 0; /* حذف کادر */
+            outline: none; /* حذف حاشیه */
+            box-shadow: none; /* حذف سایه */
+            appearance: none; /* حذف سبک پیش‌فرض */
+            padding: 0;
+        }
+
+        #leftCanvas {
+            position: fixed;
+            left:0;
+            z-index: 5;
+        }
+
+        #rightCanvas {
+            position: fixed;
+            right:0;
+            z-index: 5;
+
+        }
+        canvas {
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            background-color: transparent !important;
+        }
+
+
+        .oval-shape {
+            width: 240px;
+            height: 240px;
+            margin: 45px auto 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            overflow: hidden; /* جلوگیری از نمایش ات لاین بیرون از دایره */
+            background-color: #FFFFFF; /* بک‌گراند سفید */
+            box-shadow: 0px 0px 0px 10px #77deae; /* ات لاین */
+            direction: rtl;
+            text-align: center;
+        }
+
+
+        /* محتوای داخل دایره */
+        .oval-content {
+            text-align: center; /* متن را در مرکز دایره میانه‌چین کنید */
+            padding: 20px; /* اضافه کردن پدینگ به محتوا */
+        }
+
+        /* Add your custom styles here */
+
+        /* Responsive layout */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            #leftCanvas, #rightCanvas {
+                width: 100%;
+                margin: 10px 0;
+            }
+            .oval-shape {
+                width: 80%;
+                margin: 10px auto;
+            }
+        }
+    </style>
+    </style>
+</head>
+
+<body>
+<!-- Your HTML content here -->
+<header class="header mb-5">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary " dir="rtl">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="assets/images/logoSVG.svg" alt="moodpattern" title="moodpattern">
+            </a>
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">صفحه اصلی</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">فلسفه گراف حسی</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">لیست گراف حسی</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">تماس با ما</a>
+                </li>
+            </ul>
+            <div class="col-md-3">
+                <form>
+                    <div class="search-container">
+                        <div class="search-input">
+                            <input class="form-control rounded-4" data-size="sm" data-color="background" data-has-icon="" data-arrow-focusable="" tabindex="0" placeholder="جست&zwnj;وجو " value="">
+                            <svg width="25" height="25" class="SearchInput__icon"viewBox="0 0 30 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="search">
+                                    <path id="magnifying-glass(1) 1 (Traced)" fill-rule="evenodd" clip-rule="evenodd" d="M7.08808 2.0311C5.74216 2.21561 4.61114 2.62715 3.58646 3.3052C1.74838 4.52148 0.559377 6.2871 0.122062 8.44975C-0.0406873 9.25444 -0.0406873 10.574 0.122062 11.3787C0.282272 12.171 0.490063 12.7724 0.843998 13.4684C2.38328 16.495 5.68402 18.2207 9.08098 17.775C10.3511 17.6083 11.6835 17.0968 12.64 16.4086L12.8856 16.2319L14.6966 18.0138C16.5743 19.8612 16.7417 19.9975 17.1366 20C17.7543 20.0039 18.2625 19.5029 18.2585 18.894C18.256 18.5048 18.1175 18.3395 16.2471 16.492L14.443 14.71L14.7567 14.2394C16.1953 12.0815 16.4716 9.34475 15.4923 6.95063C14.4612 4.43007 12.1574 2.588 9.42461 2.09918C8.90955 2.00707 7.55205 1.96747 7.08808 2.0311ZM9.04584 4.20936C10.259 4.4179 11.2797 4.94678 12.1705 5.82826C12.699 6.35128 12.9848 6.73613 13.2855 7.32948C14.0829 8.90298 14.1006 10.8307 13.3322 12.4204C12.7816 13.5595 11.6971 14.6161 10.5073 15.1727C9.06387 15.8479 7.20939 15.871 5.68549 15.2327C4.47693 14.7265 3.29534 13.6049 2.7228 12.4204C1.9544 10.8307 1.97212 8.90298 2.76946 7.32948C3.06998 6.73648 3.35587 6.35148 3.88454 5.82771C4.80842 4.91249 5.89409 4.3748 7.24042 4.16576C7.57526 4.1138 8.63925 4.13948 9.04584 4.20936Z" fill="#D2D2D2"/>
+                                    <line id="Line 58" y1="-0.5" x2="20" y2="-0.5" transform="matrix(0 1 1 0 29.4165 0)" stroke="#D2D2D2"/>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <img class="text-success" src="assets/images/user.svg" alt="moodpattern" title="moodpattern">
+                            ورود</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">ثبت نام</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <button class="btn btn-outline-success rounded-5 " type="submit">تماس با مشاوران</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="mt-5"></div>
+<div class="container d-flex w-100 justify-content-between">
+    <span class="float-end">
+        <div id="my_dataviz"></div>
+    </span>
+    <div class="oval-shape">
+        <!-- تعریف SVG برای نمایش دایره‌ها -->
+        <svg width="500" height="300"></svg>
+        <!-- Your content goes here -->
+        <p>رابطه ما با همه از نظر من احساسات برای من یعنی</p>
+    </div>
+    <span class="float-start">
+
+    </span>
+</div>
+
+<div class="col-md-12 mt-5">
+    <div class="card bg-body-tertiary">
+        <div class="card-body" dir="rtl">
+            <ul class="list-group">
+                <div id="selectedCirclesInfo">
+                    <h6>اطلاعات دایره‌های انتخاب شده:</h6>
+                    <ul id="selectedCirclesList">
+                        <!-- Selected circles information will be displayed here -->
+                    </ul>
+                </div>
+                <div class="card-footer text-center">
+                    <button class="btn btn-primary submit-btn">ارسال</button>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!--footer-->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+
+                <img src="assets/images/logo.svg" alt="moodpattern" title="moodpattern">
+
+                <img src="assets/images/textLogo.svg" alt="moodpattern" title="moodpattern">
+
+                <!-- نقشه گوگل -->
+                <!-- اضافه کردن نقشه از گوگل با استفاده از کد Embed شده -->
+                <iframe class="mt-2" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25897.79347643372!2d51.391414399999995!3d35.76986905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e06f8e6ad6b4b%3A0x4fde4f4d6ca30e47!2sVanak%2C%20District%203%2C%20Tehran%2C%20Tehran%20Province%2C%20Iran!5e0!3m2!1sen!2snl!4v1702829771308!5m2!1sen!2snl" width="500" height="150" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <ul class="list-unstyled text-white" dir="ltr">
+                    <li>
+                        <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
+                        <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
+                        <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
+                        <img src="assets/images/instagram.svg" alt="moodpattern" title="moodpattern">
+
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6 mt-5" dir="rtl">
+                <!-- اطلاعات تماس -->
+                <h5 class="text-white">اطلاعات تماس</h5>
+                <ul class="list-unstyled text-white">
+                    <li>
+                        <img src="assets/images/map.svg" alt="moodpattern" title="moodpattern">
+                        شعبه 1: خیابان پیروزی نرسیده به چهار راه گوگا گولا روبروی گوچه جعفر نژاد جنب کافی شاپ دیدار بالای داروحانه شبانه روزی طبقه دوم
+                    </li>
+                </ul>
+                <h5 class="text-white">تلفن</h5>
+                <ul class="list-unstyled text-white" dir="rtl">
+                    <li>
+                        <img src="assets/images/call.svg" alt="moodpattern" title="moodpattern">
+                        021-36601073
+                        <img src="assets/images/call.svg" alt="moodpattern" title="moodpattern">
+                        021-36601073
+                        <img src="assets/images/call.svg" alt="moodpattern" title="moodpattern">
+                        021-36601073
+                    </li>
+                </ul>
+                <!-- اطلاعات تماس -->
+                <h5 class="text-white">ایمیل :</h5>
+                <ul class="list-unstyled text-white">
+                    <li>
+                        <img src="assets/images/email.svg" alt="moodpattern" title="moodpattern">
+                        INFO@GRAFHESI.COM
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+
+<!-- کپی رایت -->
+<div class="copyRight"></div>
+
+<!-- JavaScript code -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+    // تعداد دایره‌ها
+    var numberOfCircles = 10;
+
+    // ساخت یک شبیه‌سازی
+    var simulation = d3.forceSimulation()
+        .force("center", d3.forceCenter(250, 150)) // مرکز دایره‌ها
+        .force("charge", d3.forceManyBody().strength(0.5)) // نیروی جاذبه بین دایره‌ها
+
+    // داده‌های مربوط به دایره‌ها
+    var nodes = d3.range(numberOfCircles).map(function() {
+        return { radius: 20 }; // اندازه دایره‌ها
+    });
+
+    // ایجاد دایره‌ها
+    var circles = d3.select("svg").selectAll("circle")
+        .data(nodes)
+        .enter().append("circle")
+        .attr("r", function(d) { return d.radius; })
+        .attr("fill", "steelblue")
+        .call(d3.drag() // افزودن قابلیت drag برای دایره‌ها
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended))
+        .on("click", function(d, i) { // رویداد کلیک بر روی دایره
+            // ارسال اطلاعات دایره به صفحه دیگر
+            var dataToSend = { index: i, radius: d.radius };
+            fetch("post.php", {
+                method: "POST",
+                body: JSON.stringify(dataToSend),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => {
+                    // پردازش پاسخ
+                })
+                .catch(error => {
+                    // پردازش خطا
+                });
+        });
+
+    // قرار دادن دایره‌ها در محیط
+    circles.attr("cx", function(d, i) { return (i + 1) * 50; })
+        .attr("cy", 150); // محور Y ثابت است
+
+    // تابع‌های drag
+    function dragstarted(event, d) {
+        if (!event.active) simulation.alphaTarget(.03).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+
+    function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+    }
+
+    function dragended(event, d) {
+        if (!event.active) simulation.alphaTarget(.03);
+        d.fx = null;
+        d.fy = null;
+    }
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+        }
+    </style>
+    <title>دایره‌های چرخشی</title>
+</head>
+<body>
+<canvas id="myCanvas" height="400"></canvas>
+<button id="sendButton">ارسال</button>
+<div id="postedTitles"></div>
+<script>
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var circles = [];
+    var enlargedCircles = [];
+
+    function Circle(x, y, radius, color, title, dx, dy, isCentral = false) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.title = title;
+        this.dx = dx;
+        this.dy = dy;
+        this.isCentral = isCentral;
+    }
+
+    Circle.prototype.draw = function () {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "#000";
+        ctx.stroke();
+        ctx.font = (this.radius / (this.isCentral ? 1 : 2)) + "px Arial";
+        ctx.fillStyle = "#000";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(this.title, this.x, this.y);
+    };
+
+    function changeCircleStyle(circle) {
+        circle.color = getRandomColor();
+        circle.dx = Math.random() * 2 - 1; // سرعت حرکت افقی
+        circle.dy = Math.random() * 2 - 1; // سرعت حرکت عمودی
+    }
+
+    function changeFontStyle(circle) {
+        var fonts = ["Arial", "Courier New", "Georgia", "Times New Roman", "Verdana"];
+        circle.font = (circle.radius / 2) + "px " + fonts[Math.floor(Math.random() * fonts.length)];
+    }
+
+    function updateCentralCircle() {
+        centralCircle.color = getRandomColor();
+        centralCircle.radius = Math.random() * 50 + 30; // اندازه دایره
+        centralCircle.title = "سلام دنیا!";
+        changeFontStyle(centralCircle); // تغییر فونت متن دایره
+    }
+
+    function update() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        centralCircle.draw();
+
+        for (var i = 0; i < circles.length; i++) {
+            var circle = circles[i];
+
+            circle.x += circle.dx;
+            circle.y += circle.dy;
+
+            if (circle.x + circle.radius > canvas.width || circle.x - circle.radius < 0) {
+                circle.dx = -circle.dx;
+            }
+            if (circle.y + circle.radius > canvas.height || circle.y - circle.radius < 0) {
+                circle.dy = -circle.dy;
+            }
+
+            circle.draw();
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    function checkClick(event) {
+        var mouseX = event.pageX - canvas.offsetLeft;
+        var mouseY = event.pageY - canvas.offsetTop;
+
+        for (var i = 0; i < circles.length; i++) {
+            var circle = circles[i];
+            var dx = mouseX - circle.x;
+            var dy = mouseY - circle.y;
+            var distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < circle.radius) {
+                if (!enlargedCircles.includes(circle)) {
+                    enlargeCircle(circle);
+                    enlargedCircles.push(circle);
+                }
+                break;
+            }
+        }
+    }
+
+    function enlargeCircle(circle) {
+        circle.radius += 5;
+        circle.draw();
+    }
+
+    function postEnlargedTitles() {
+        var titles = enlargedCircles.map(circle => circle.title);
+        document.getElementById("postedTitles").innerHTML = titles.join("<br>");
+    }
+
+    function getRandomColor() {
+        var letters = "0123456789ABCDEF";
+        var color = "#";
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color + "80";
+    }
+
+    // ایجاد دکمه ارسال
+    var sendButton = document.createElement("button");
+    sendButton.innerHTML = "ارسال";
+    sendButton.onclick = postEnlargedTitles;
+    document.body.appendChild(sendButton);
+
+    // ایجاد دایره مرکزی
+    var centralCircle = new Circle(canvas.width / 2, canvas.height / 2, 50, "#FF0000", "رابطه ما با همه ازنظر من احساسات برای من یعنی", 0, 0, true);
+    changeFontStyle(centralCircle); // تغییر فونت متن دایره مرکزی
+
+    // ایجاد دایره‌های ابتدایی
+    for (var i = 0; i < 50; i++) {
+        var x = Math.random() * (canvas.width - 40) + 20;
+        var y = Math.random() * (canvas.height - 40) + 20;
+        var radius = 20;
+        var color = getRandomColor();
+        var title = "عنوان " + (i + 1);
+        var dx = Math.random() * 2 - 1;
+        var dy = Math.random() * 2 - 1;
+        var circle = new Circle(x, y, radius, color, title, dx, dy);
+
+        changeCircleStyle(circle); // تغییر استایل دایره اولیه
+        changeFontStyle(circle); // تغییر فونت متن دایره اولیه
+
+        circles.push(circle);
+    }
+
+    // راه‌اندازی ابتدایی
+    update();
+
+    // اضافه کردن رویداد کلیک
+    canvas.addEventListener("click", checkClick);
+
+    // به‌روزرسانی در صورت تغییر اندازه پنجره
+    window.addEventListener("resize", function () {
+        update();
+    });
+
+
+    var sendButton = document.getElementById("sendButton");
+    sendButton.addEventListener("click", postEnlargedTitles);
+    // تست متد updateCentralCircle
+    //setTimeout(updateCentralCircle, 5000); // بعد از 5 ثانیه، مت
+
+
+
+</script>
+</body>
+</html>
