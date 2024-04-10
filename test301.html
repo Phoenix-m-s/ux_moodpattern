@@ -31,6 +31,10 @@
       opacity: 0.9; /* برای مثال، تنظیم شفافیت به 0.7 */
     }
 
+    .selected circle {
+      stroke: red; /* رنگ حاشیه دایره */
+      stroke-width: 3; /* عرض حاشیه دایره */
+    }
 
   </style>
 </head>
@@ -339,7 +343,10 @@
             node.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
           });
 
-  // What happens when a circle is clicked?
+  // تعریف متغیر circleData
+  let circleData = [];
+
+  // تابع clicked باید به این صورت باشد
   function clicked(event, d) {
     const clickedNode = d3.select(this);
     const circle = clickedNode.select("circle");
@@ -347,53 +354,66 @@
 
     let circleSize = parseFloat(circle.attr("r"));
 
-    // Increase circle size for first three clicks, then decrease for the next three clicks
     if (clickCount % 6 < 3) {
       circleSize += 10; // Increase size
     } else {
       circleSize -= 10; // Decrease size
     }
 
-    // Ensure circle size doesn't go below 40 pixels
     circleSize = Math.max(40, circleSize);
 
-    // If circle size is 40 pixels and a new click occurs, set size to 50 pixels
     if (circleSize === 40 && clickCount % 6 !== 0) {
       circleSize = 50;
     }
 
-    // Apply transition to circle size
     circle.transition()
             .duration(500)
             .attr("r", circleSize);
 
-    // Move text to the center of the circle
     text.attr("transform", "translate(0," + (-40) + ")");
 
-    // Increment click count
+    // چک کردن اینکه آیا دایره مورد نظر در circleData وجود دارد یا خیر
+    const dataIndex = circleData.findIndex(item => item.title === text.text());
+    if (dataIndex !== -1) {
+      // اگر دایره در circleData وجود دارد، تعداد کلیک‌ها آن را افزایش می‌دهیم
+      circleData[dataIndex].clicks++;
+    } else {
+      // اگر دایره در circleData وجود ندارد، آن را به circleData اضافه می‌کنیم
+      circleData.push({ title: text.text(), clicks: 1 });
+    }
+
     clickCount++;
-
-    // Push click data to array
-    clickData.push({
-      title: titles[clickCount % titles.length],
-      clicks: clickCount
-    });
-
-    // Call function to update displayed click data
-    updateClickData();
   }
-
-
-
-
-  // Function to update displayed click data
-  function updateClickData() {
-    const dataDiv = document.getElementById("selectedCirclesList");
+  // تابع ارسال داده
+  function submitData() {
+    const dataDiv = document.getElementById("data");
     dataDiv.innerHTML = "";
-    clickData.forEach((item, index) => {
-      dataDiv.innerHTML += "<li>عنوان: " + item.title + " - تعداد کلیک: " + item.clicks + "</li>";
+    circleData.forEach((item, index) => {
+      dataDiv.innerHTML += item.title + ": " + item.clicks + "<br>";
     });
   }
+
+  // زمانی که دکمه ارسال کلیک می‌شود
+  document.getElementById("submit-btn").addEventListener("click", function() {
+    // پیدا کردن دایره‌ای که کاربر روی آن کلیک کرده است
+    const selectedCircle = d3.select(".selected circle");
+
+    // بررسی اینکه آیا دایره‌ای کلیک شده است یا خیر
+    if (!selectedCircle.empty()) {
+      // گرفتن عنوان و تعداد کلیک دایره‌ای که کاربر روی آن کلیک کرده است
+      const title = selectedCircle.node().parentNode.querySelector("text").textContent;
+      const clicks = parseInt(selectedCircle.attr("data-clicks"));
+
+      // اضافه کردن اطلاعات دایره‌ای که کاربر روی آن کلیک کرده است به محتوای صفحه
+      const infoDiv = document.getElementById("selectedCirclesList");
+      infoDiv.innerHTML = "<li>" + title + ": " + clicks + "</li>";
+    }
+  });
+
+
+
+
+
 
   // What happens when a circle is dragged?
   function dragstarted(event, d) {
@@ -413,13 +433,5 @@
     d.fy = null;
   }
 
-  // Submit data function
-  function submitData() {
-    const dataDiv = document.getElementById("data");
-    dataDiv.innerHTML = "";
-    clickData.forEach((item, index) => {
-      dataDiv.innerHTML += "عنوان: " + item.title + " - " + "تعداد کلیک: " + item.clicks + "<br>";
-    });
-  }
 </script>
 </html>
