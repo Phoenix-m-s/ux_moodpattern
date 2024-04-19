@@ -27,6 +27,21 @@
       opacity: 0;
     }
 
+    .oval-shape {
+      width: 240px;
+      height: 240px;
+      margin: 45px auto 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      overflow: hidden; /* جلوگیری از نمایش ات لاین بیرون از دایره */
+      background-color: #FFFFFF; /* بک‌گراند سفید */
+      box-shadow: 0 0 0 10px #77deae; /* ات لاین */
+      direction: rtl;
+      text-align: center;
+    }
     #my_dataviz svg {
       opacity: 0.9; /* برای مثال، تنظیم شفافیت به 0.7 */
     }
@@ -107,7 +122,15 @@
 </header>
 <div class="container">
   <div class="col-md-8 mx-auto my-auto">
-    <div id="my_dataviz"></div>
+
+    <div class="oval-shape">
+      <!-- Your content goes here -->
+      <p>رابطه ما با همه از نظر من احساسات برای من یعنی</p>
+    </div>
+
+    <div id="my_dataviz">
+
+    </div>
   </div>
 </div>
 <div class="col-md-8 mx-auto my-auto mt-5">

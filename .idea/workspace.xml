@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4cf4819b-b107-4f8c-b71d-699fdeae728b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_04_2024_9_34_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_04_2024_9_34_AM__Changes_.xml" afterDir="false" />
+    <list default="true" id="4cf4819b-b107-4f8c-b71d-699fdeae728b" name="Changes" comment="fix bug">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_04_2024_9_34_AM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_06_04_2024_9_34_AM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test301.html" beforeDir="false" afterPath="$PROJECT_DIR$/test301.html" afterDir="false" />
     </list>
@@ -92,8 +93,18 @@
       <workItem from="1712129100983" duration="3383000" />
       <workItem from="1712580753328" duration="126000" />
       <workItem from="1712583267436" duration="949000" />
-      <workItem from="1712710473908" duration="1599000" />
+      <workItem from="1712710473908" duration="2736000" />
+      <workItem from="1713366207404" duration="1250000" />
+      <workItem from="1713488883116" duration="366000" />
     </task>
+    <task id="LOCAL-00001" summary="fix bug">
+      <created>1712712302769</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1712712302769</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -109,5 +120,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fix bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug" />
   </component>
 </project>
