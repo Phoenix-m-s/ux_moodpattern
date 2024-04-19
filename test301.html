@@ -42,6 +42,16 @@
       direction: rtl;
       text-align: center;
     }
+    #centerCircle {
+      width: 200px; /* اندازه دلخواه */
+      height: 200px; /* اندازه دلخواه */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+       z-index:9999;
+    }
+
     #my_dataviz svg {
       opacity: 0.9; /* برای مثال، تنظیم شفافیت به 0.7 */
     }
@@ -123,10 +133,11 @@
 <div class="container">
   <div class="col-md-8 mx-auto my-auto">
 
-    <div class="oval-shape">
+    <div class="oval-shape" id="centerCircle">
       <!-- Your content goes here -->
       <p>رابطه ما با همه از نظر من احساسات برای من یعنی</p>
     </div>
+
 
     <div id="my_dataviz">
 
