@@ -199,7 +199,7 @@ $titles = [
         </div>
     </div>
 </div>
-<div class="col-md-8 mx-auto my-auto mt-5">
+<div class="col-md-8 col-xl-8 center-mobile mx-auto my-auto mt-5">
     <div class="card bg-body-tertiary">
         <div class="card-header text-center">
             <h6>اطلاعات دایره‌های انتخاب شده:</h6>
