@@ -9,8 +9,8 @@
   <!-- fav icon -->
   <link rel="shortcut icon" href="assets/images/logo.svg">
   <!-- css-->
-  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/bootstrap5.min.css">
+  <link rel="stylesheet" href="assets/css/style5.css">
   <script src="assets/js/d3.v7.min.js"></script>
   <style>
     .tooltip {
@@ -49,7 +49,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-       z-index:9999;
+      z-index:9999;
     }
 
     #my_dataviz svg {
@@ -61,7 +61,11 @@
       stroke-width: 3; /* عرض حاشیه دایره */
     }
 
+    body {
+      overflow-x: hidden;
+    }
   </style>
+
 </head>
 <body>
 <header class="header mb-5">
@@ -130,44 +134,62 @@
     </div>
   </nav>
 </header>
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-md-12 mx-auto">
-      <ul class="nav nav-tabs mb-3">
-        <li class="nav-item">
-          <a class="nav-link active" id="step1-tab" data-bs-toggle="tab" href="#step1" role="tab">Step 1</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="step2-tab" data-bs-toggle="tab" href="#step2" role="tab">Step 2</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="step3-tab" data-bs-toggle="tab" href="#step3" role="tab">Step 3</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="step4-tab" data-bs-toggle="tab" href="#step4" role="tab">Step 4</a>
-        </li>
-      </ul>
-      <div class="tab-content">
-        <div class="tab-pane fade show active" id="step1" role="tabpanel">
-          <h2>Step 1 Content</h2>
-          <p>This is the content for Step 1.</p>
-        </div>
-        <div class="tab-pane fade" id="step2" role="tabpanel">
-          <h2>Step 2 Content</h2>
-          <p>This is the content for Step 2.</p>
-        </div>
-        <div class="tab-pane fade" id="step3" role="tabpanel">
-          <h2>Step 3 Content</h2>
-          <p>This is the content for Step 3.</p>
-        </div>
-        <div class="tab-pane fade" id="step4" role="tabpanel">
-          <h2>Step 4 Content</h2>
-          <p>This is the content for Step 4.</p>
+<div class="row" dir="rtl">
+  <!-- تب‌ها -->
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="step1-tab" data-bs-toggle="tab" data-bs-target="#step1" type="button" role="tab" aria-controls="step1" aria-selected="true">مرحله 1</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="step2-tab" data-bs-toggle="tab" data-bs-target="#step2" type="button" role="tab" aria-controls="step2" aria-selected="false">مرحله 2</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="step3-tab" data-bs-toggle="tab" data-bs-target="#step3" type="button" role="tab" aria-controls="step3" aria-selected="false">مرحله 3</button>
+    </li>
+  </ul>
+  <!-- مرحله اول -->
+  <div class="tab-pane fade show active" id="step1" role="tabpanel" aria-labelledby="step1-tab">
+    <div class="row" dir="rtl">
+      <div class="oval-shape" id="centerCircle">
+        <!-- Your content goes here -->
+        <p>رابطه ما با همه از نظر من احساسات برای من یعنی</p>
+      </div>
+      <div id="my_dataviz">
+        <!-- Your visualization content goes here -->
+      </div>
+      <div class="col-md-4 col-xl-4 center-mobile mx-auto my-auto mt-5">
+        <div class="card bg-body-tertiary">
+          <div class="card-header text-center">
+            <h6>اطلاعات دایره‌های انتخاب شده:</h6>
+          </div>
+          <div class="card-body" dir="rtl">
+            <ul class="list-group">
+              <div id="selectedCirclesInfo">
+                <ul id="selectedCirclesList">
+                  <div id="data"></div>
+                </ul>
+              </div>
+            </ul>
+          </div>
+          <div class="card-footer float-end">
+            <button class="btn btn-success rounded-5 " id="submit-btn" onclick="submitData()">ارسال</button>
+          </div>
+          <input type="hidden" name="action" id="action" value="store">
         </div>
       </div>
     </div>
   </div>
+  <!-- مرحله دوم  -->
+  <div class="tab-pane fade show active" id="step2" role="tabpanel" aria-labelledby="step2-tab">
+
+  </div>
+  <!-- مرحله سوم  -->
+  <div class="tab-pane fade show active" id="step3" role="tabpanel" aria-labelledby="step3-tab">
+    <p>2222</p>
+  </div>
+
 </div>
+
 
 
 <!--footer-->
@@ -234,161 +256,246 @@
 </body>
 <!--js-->
 <script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/bootstrap5.min.js"></script>
 <!-- Script -->
-<script>
+<!-- Script -->
+<script type="text/javascript">
   // تنظیم ابعاد SVG
-  const width = 1000;
-  const height = 800;
-
-  // append the svg object to the body of the page
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  // SVG را به بدنه صفحه اضافه کنید
   const svg = d3.select("#my_dataviz")
           .append("svg")
           .attr("width", width)
           .attr("height", height);
 
-  // Data for circles
-  const data = Array.from({
-    length: 50
-  }, (_, i) => ({
+  // داده‌های دایره‌ها
+  const data = Array.from({ length: 50 }, (_, i) => ({
     region: "Region " + (i + 1),
     value: Math.floor(Math.random() * 1000000000)
   }));
 
-  // Titles for circles
-  const titles =  [
-  { title: "محبت", description: "محبت می‌تواند به معنای عمیق‌ترین ارتباطات انسانی باشد." },
-  { title: "عشق", description: "عشق نیرویی بسیار قوی و فراتر از تنها یک احساس است." },
-  { title: "دوستی", description: "دوستی نیازمندی است که به عنوان یکی از ارزشمندترین هدایا در زندگی انسان‌ها شناخته می‌شود." },
-  // و سایر عناوین و توضیحات
-];
+  // تبدیل رشته JSON به داده‌های قابل استفاده در جاوااسکریپت
+  const titles = [
+    "محبت",
+    "عشق",
+    "دوستی",
+    "آرامش",
+    "آرزو",
+    "شوق",
+    "غم",
+    "شادی",
+    "احساس",
+    "احترام",
+    "زیبایی",
+    "آسایش",
+    "همدلی",
+    "رمانتیسم",
+    "حنان",
+    "الفت",
+    "همنشینی",
+    "سعادت",
+    "اراده",
+    "اشتیاق",
+    "تعلق",
+    "سیرت",
+    "رفاقت",
+    "همبستگی",
+    "معنویت",
+    "یاری",
+    "آشتی",
+    "خواب",
+    "وصال",
+    "تفریح",
+    "شیفتگی",
+    "یگانگی",
+    "عاشقی",
+    "تمایل",
+    "همدلانه",
+    "صمیمیت",
+    "شادمانی",
+    "معصومیت",
+    "هوس",
+    "هیجان",
+    "وابستگی",
+    "منفعت",
+    "التفات",
+    "دلبستگی",
+    "پایبندی",
+    "عاطفت",
+    "پیمان",
+    "محبوبیت",
+    "غرامت",
+    "مدد"
+  ];
 
 
-  // Color scale for circles
+  // ایجاد مقیاس رنگ
   const color = d3.scaleOrdinal()
-          .domain(titles)
           .range(d3.schemeCategory10);
 
-  // Size scale for circles
+  // مقیاس اندازه برای دایره‌ها
+  const initialSize = 45; // اندازه اولیه دایره‌ها
   const size = d3.scaleLinear()
-          .domain(d3.extent(data, d => d.value))
-          .range([40, 40]);
+          .range([initialSize, initialSize]);
 
-  // create a tooltip
+  // ایجاد ابزار مشاهده
   const Tooltip = d3.select("#my_dataviz")
           .append("div")
           .style("opacity", 0)
           .attr("class", "tooltip");
 
-  // Initialize click counter
+  // شمارنده کلیک
   let clickCount = 0;
 
-  // Initialize data array for clicks
-  let clickData = [];
+  // آرایه داده برای کلیک‌ها را مقداردهی اولیه کنید
+  let circleData = [];
 
-  // Initialize the circles
+  // ایجاد دایره‌ها
   const node = svg.selectAll(".node")
           .data(data)
           .enter()
           .append("g")
           .attr("class", "node")
           .attr("transform", (d, i) => "translate(" + (50 + i * 20) + "," + height / 2 + ")")
-          .on("mouseover", function (event, d) {
-            Tooltip.style("opacity", 1)
-                    .html('<u>' + d.region + '</u>' + "<br>" + d.value + " inhabitants")
-                    .style("left", (event.pageX) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-          })
-          .on("mouseleave", function () {
-            Tooltip.style("opacity", 0);
-          })
           .on("click", clicked)
           .call(d3.drag()
                   .on("start", dragstarted)
                   .on("drag", dragged)
                   .on("end", dragended));
 
-  // Append circles to each group
+  // افزودن دایره به هر گروه
   node.append("circle")
-          .attr("r", d => size(d.value))
+          .attr("r", initialSize)
           .style("fill", (d, i) => color(titles[i]))
           .attr("stroke", "black")
           .style("stroke-width", 1);
 
-  // Append text to each group
   node.append("text")
           .attr("text-anchor", "middle")
           .attr("dominant-baseline", "middle")
-          .text((d, i) => titles[i].title);
+          .text((d, i) => `${i + 1}: ${titles[i]}`) // اضافه کردن شمارهٔ اندیس به عنوان متن دایره
+          .style("fill", "white");
 
-  // Features of the forces applied to the nodes:
+
+  // ویژگی‌های نیروهای اعمال شده بر روی گره‌ها:
   const simulation = d3.forceSimulation()
-          .force("center", d3.forceCenter().x(width / 2).y(height / 2)) // Attraction to the center of the svg area
-          .force("charge", d3.forceManyBody().strength(.1)) // Nodes are attracted to each other if value is > 0
+          .force("center", d3.forceCenter().x(width / 2).y(height / 2)) // جذب به مرکز ناحیه svg
+          .force("charge", d3.forceManyBody().strength(.1)) // گره‌ها به یکدیگر جذب می‌شوند اگر مقدار > 0 باشد
           .force("collide", d3.forceCollide().strength(.2).radius(function (d) {
             return (size(d.value) + 3);
-          }).iterations(1)) // Force that avoids circle overlapping;
+          }).iterations(1)); // نیرویی که از همپوشانی دایره‌ها جلوگیری می‌کند
 
-  // Apply these forces to the nodes and update their positions.
+  // اعمال این نیروها به گره‌ها و به روزرسانی موقعیت آنها.
   simulation
           .nodes(data)
           .on("tick", function (d) {
             node.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
           });
 
-  // تعریف متغیر circleData
-  let circleData = [];
-
-  // تابع clicked باید به این صورت باشد
-  function clicked(event, d) {
+  // تابع clicked
+  function clicked(event, d, index) {
+    event.preventDefault();
     const clickedNode = d3.select(this);
     const circle = clickedNode.select("circle");
     const text = clickedNode.select("text");
 
     let circleSize = parseFloat(circle.attr("r"));
 
-    if (clickCount % 6 < 3) {
-      circleSize += 10; // Increase size
+    if (clickCount % 8 < 4) {
+      circleSize += 10; // افزایش اندازه
     } else {
-      circleSize -= 10; // Decrease size
+      circleSize -= 10; // کاهش اندازه
     }
 
-    circleSize = Math.max(40, circleSize);
+    circleSize = Math.max(initialSize, circleSize);
 
-    if (circleSize === 40 && clickCount % 6 !== 0) {
-      circleSize = 50;
+    if (circleSize === initialSize && clickCount % 8 !== 0) {
+      circleSize = initialSize + 10;
     }
 
     circle.transition()
             .duration(500)
             .attr("r", circleSize);
 
-    text.attr("transform", "translate(0," + (-40) + ")");
+    text.attr("transform", "translate(0," + (-initialSize) + ")");
 
     // چک کردن اینکه آیا دایره مورد نظر در circleData وجود دارد یا خیر
     const dataIndex = circleData.findIndex(item => item.title === text.text());
+    const key = dataIndex !== -1 ? circleData[dataIndex].key : null;
     if (dataIndex !== -1) {
       // اگر دایره در circleData وجود دارد، تعداد کلیک‌ها آن را افزایش می‌دهیم
       circleData[dataIndex].clicks++;
     } else {
       // اگر دایره در circleData وجود ندارد، آن را به circleData اضافه می‌کنیم
-      circleData.push({ title: text.text(), clicks: 1 });
+      circleData.push({title: text.text(), clicks: 1});
+    }
+
+    // اگر تعداد کلیک‌ها بیشتر از 8 بار شود، مقدار کلیک‌ها را برابر 8 می‌کنیم
+    if (circleData[dataIndex].clicks > 8) {
+      circleData[dataIndex].clicks = 8;
     }
 
     clickCount++;
   }
-  // تابع ارسال داده
+  function removeLetters(inputString) {
+    return inputString.replace(/[^0-9]/g, '');
+  }
+  // تابع برای ارسال و نمایش داده
   function submitData() {
+    // تعریف متغیر formData
+    const formData = new FormData();
+
+    // یافتن div که داده‌ها در آن نمایش داده می‌شود
     const dataDiv = document.getElementById("data");
-    dataDiv.innerHTML = "";
+    dataDiv.innerHTML = ""; // پاک کردن داده‌های قبلی
+
+    // حلقه از طریق آرایه circleData
     circleData.forEach((item, index) => {
-      dataDiv.innerHTML += item.title + ": " + item.clicks + "<br>";
+      const title = removeLetters(item.title);
+      const clicks = item.clicks;
+
+      // ایجاد رشته شامل اطلاعات شماره، عنوان و تعداد کلیک‌ها
+      const dataString = `${removeLetters(title)} (${clicks})<br>`;
+
+      // افزودن dataString به dataDiv
+      dataDiv.innerHTML += dataString;
+
+      // افزودن اطلاعات به formData
+      formData.append(`circleData[${index}][title]`, title);
+      formData.append(`circleData[${index}][clicks]`, clicks);
     });
+
+    // ارسال درخواست fetch با استفاده از formData و ارسال به فایل PHP
+    fetch('formIndex.php', {
+      method: 'POST',
+      body: formData
+    })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.text(); // یا response.json() اگر می‌خواهید داده‌های JSON را بخوانید
+            })
+            .then(data => {
+              console.log(data); // دریافت پاسخ از سرور
+              // انجام هر عملیاتی که نیاز به اطلاعات دریافتی از سرور دارد
+            })
+            .catch(error => {
+              console.error('There was an error!', error);
+            });
   }
 
+
+  // فراخوانی اولیه تابع submitData برای نمایش داده هنگام بارگذاری صفحه
+  submitData();
+
   // زمانی که دکمه ارسال کلیک می‌شود
-  document.getElementById("submit-btn").addEventListener("click", function() {
-    // پیدا کردن دایره‌ای که کاربر روی آن کلیک کرده است
+  document.getElementById("submit-btn").addEventListener("click", function(event) {
+    // جلوگیری از ارسال فرم به صورت پیش‌فرض
+    event.preventDefault();
+
+    // یافتن دایره‌ای که کاربر روی آن کلیک کرده است
     const selectedCircle = d3.select(".selected circle");
 
     // بررسی اینکه آیا دایره‌ای کلیک شده است یا خیر
@@ -397,19 +504,24 @@
       const title = selectedCircle.node().parentNode.querySelector("text").textContent;
       const clicks = parseInt(selectedCircle.attr("data-clicks"));
 
-      // اضافه کردن اطلاعات دایره‌ای که کاربر روی آن کلیک کرده است به محتوای صفحه
+      // افزودن اطلاعات دایره‌ای که کاربر روی آن کلیک کرده است به محتوای صفحه
       const infoDiv = document.getElementById("selectedCirclesList");
       infoDiv.innerHTML = "<li>" + title + ": " + clicks + "</li>";
+
+      // ارسال فرم
+      const form = document.getElementById("myForm");
+      form.querySelector("#dataInput").value = title + ": " + clicks;
+      form.submit();
     }
   });
 
-
-  // What happens when a circle is dragged?
+  // وقتی یک دایره کشیده می‌شود چه اتفاقی می‌افتد؟
   function dragstarted(event, d) {
     if (!event.active) simulation.alphaTarget(.03).restart();
     d.fx = d.x;
     d.fy = d.y;
   }
+
 
   function dragged(event, d) {
     d.fx = event.x;
@@ -421,6 +533,5 @@
     d.fx = null;
     d.fy = null;
   }
-
 </script>
 </html>
