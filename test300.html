@@ -182,11 +182,9 @@
 <script src="assets/js/bootstrap.min.js"></script>
 <script>
 
-
     <!-- تنظیم ابعاد SVG -->
     const width = 1000;
     const height = 800;
-
 
     // append the svg object to the body of the page
     const svg = d3.select("#my_dataviz")
@@ -356,7 +354,6 @@
         d.fx = d.x;
         d.fy = d.y;
     }
-
     function dragged(event, d) {
         d.fx = event.x;
         d.fy = event.y;
@@ -376,11 +373,5 @@
             dataDiv.innerHTML += "عنوان: " + item.title + " - " + "تعداد کلیک: " + item.clicks + "<br>";
         });
     }
-
-
-
-
-
-
 </script>
 </html>
